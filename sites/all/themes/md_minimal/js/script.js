@@ -356,7 +356,7 @@ if(!!window.Backbone) {
         var LoadingView = Backbone.View.extend({
             tagName: 'div',
             className: 'modal-backdrop',
-            imageSrc: '/sites/all/themes/md_minimal/images/ajax-load/108.gif',
+            imageSrc: '/sites/all/themes/md_minimal/images/ajax-load/109.gif',
             initialize: function() {
                 var view = this;
                 $(this.el).html('<div style="width:100%;height:100%" class="align-center"><span style="position:relative;top:50%;margin-top:-200px;color:white"><img src="' + view.imageSrc + '"/></span></div>');
