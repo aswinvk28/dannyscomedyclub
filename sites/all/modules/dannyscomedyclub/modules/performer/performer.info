@@ -1,0 +1,16 @@
+name = DannysComedyClub Performer Module
+description = "Performers of the club"
+package = DannysComedyClub
+
+dependencies[] = dannyscomedyclub
+dependencies[] = entity
+dependencies[] = entityfunctionality
+
+files[] = includes/entity/entity.controller.inc
+files[] = includes/entity/entity.wrapper.inc
+files[] = includes/entity/entity.crud.inc
+files[] = includes/entity/entity.inc
+
+version = "7.21"
+core = "7.x"
+project = "performer"

@@ -1,0 +1,48 @@
+<?php 
+
+function pressquotation_schema() {
+    $schema = array();
+    
+    $schema['dcc_entity_pressquotation'] = array(
+        'description' => 'Quotations from various sources',
+        'fields' => array(
+            'pressquotation_id' => array(
+                'type' => 'serial', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_node_reference_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_taxonomy_agency_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => FALSE,
+                'default' => NULL),
+            'entity_taxonomy_author_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => FALSE, 
+                'default' => NULL),
+            'quote' => array(
+                'type' => 'varchar', 
+                'length' => 1536, 
+                'not null' => FALSE, 
+                'default' => NULL),
+            'quote_date' => array(
+                'type' => 'datetime',
+                'mysql_type' => 'datetime',
+                'not null' => FALSE,
+                'sortable' => TRUE,
+                'views' => TRUE,
+                'default' => NULL)
+        ),
+        'indexes' => array('node_reference' => array('entity_node_reference_id'), 'agency' => array('entity_taxonomy_agency_id'), 'author' => array('entity_taxonomy_author_id'), 'date' => array('quote_date')),
+        'primary key' => array('pressquotation_id'),
+        'foreign keys' => array()
+    );
+    
+    return $schema;
+}
+
+?>

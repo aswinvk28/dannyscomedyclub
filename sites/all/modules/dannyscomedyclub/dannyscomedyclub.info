@@ -1,0 +1,7 @@
+name = DannysComedyClub Module
+description = "Internal working of the club"
+package = DannysComedyClub
+
+version = "7.21"
+core = "7.x"
+project = "dannyscomedyclub"

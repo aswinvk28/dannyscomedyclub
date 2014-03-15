@@ -1,0 +1,269 @@
+<?php 
+
+abstract class DannysComedyClub {
+    public static $statusArray = array(
+        'Upcoming' => 'upcoming',
+        'Finished' => 'finished',
+        'TBC' => 'tbc',
+        'Confirmed' => 'confirmed',
+        'Closed' => 'closed',
+        'Cancelled' => 'cancelled'
+    );
+}
+
+function dannyscomedyclub_memory_queue()
+{
+    static $memory_queue;
+    if(!isset($memory_queue)) {
+        $memory_queue = new MemoryQueue('dannyscomedyclub');
+    }
+    return $memory_queue;
+}
+
+function dannyscomedyclub_menu() {
+    $items = array();
+    
+    $items['about-us'] = array(
+        'title' => 'About Us',
+        'page callback' => 'dannyscomedyclub_display_page',
+        'page arguments' => array(0),
+        'file' => 'dannyscomedyclub.pages.inc',
+        'access arguments' => array('access content'),
+        'menu_name' => 'main-menu',
+        'type' => MENU_NORMAL_ITEM,
+        'weight' => -8
+    );
+    
+    $items['contact-us'] = array(
+        'title' => 'Contact Us',
+        'page callback' => 'dannyscomedyclub_display_page',
+        'page arguments' => array(0),
+        'file' => 'dannyscomedyclub.pages.inc',
+        'access arguments' => array('access content'),
+        'menu_name' => 'main-menu',
+        'type' => MENU_NORMAL_ITEM,
+        'weight' => -7
+    );
+    
+    $items['terms-and-conditions'] = array(
+        'title' => 'Terms and Conditions',
+        'page callback' => 'dannyscomedyclub_display_page',
+        'page arguments' => array(0),
+        'file' => 'dannyscomedyclub.pages.inc',
+        'access arguments' => array('access content'),
+        'menu_name' => 'menu-secondary-menu',
+        'type' => MENU_NORMAL_ITEM,
+    );
+    
+    return $items;
+}
+
+function dannyscomedyclub_menu_alter(&$items) {
+    $items['<front>']['weight'] = -11;
+    $items['<front>']['type'] = MENU_FOUND;
+    $items['<front>']['menu_name'] = 'main-menu';
+    $items['<front>']['title'] = 'Home';
+    $items['taxonomy/term/%taxonomy_term']['access arguments'] = array(2);
+    $items['taxonomy/term/%taxonomy_term']['access callback'] = 'taxonomy_term_edit_access';
+    $items['node']['page callback'] = 'dannyscomedyclub_display_front_page';
+    $items['node']['type'] = MENU_FOUND;
+    $items['node']['file'] = 'dannyscomedyclub.pages.inc';
+    $items['node']['file path'] = drupal_get_path('module', 'dannyscomedyclub');
+}
+
+function dannyscomedyclub_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
+    $form['front_page']['default_nodes_main']['#options'][0] = 0;
+}
+
+function dannyscomedyclub_uri($node) {
+    $node_uri = node_uri($node);
+    $alias = drupal_lookup_path('alias', $node_uri['path']);
+    if($alias) {
+        return array(
+            'path' => $node->type . '/' . $alias
+        );
+    } 
+    return $node_uri;
+}
+
+function dcc_entity_node_uri($entity) {
+    $info = $entity->entityInfo();
+    $node = (object) array(
+        'nid' => $entity->getBundle(),
+        'type' => key($info['bundles'])
+    );
+    return dannyscomedyclub_uri($node);
+}
+
+function dcc_numeric_entity_node_uri($entity) {
+    $info = $entity->entityInfo();
+    return array(
+        'path' => key($info['bundles']) . '/' . $entity->getEntityId()
+    );
+}
+
+function theme_list_item_view($vars) {
+    $output = '';
+    $li_separator = !empty($vars['li_separator']) ? $vars['li_separator'] : '';
+    $li_array = array();
+    if(!empty($vars['items'])) {
+        $output .= '<ul class="' . $vars['ul_class'] . '">';
+        foreach($vars['items'] as $item) {
+            $li_array[] = '<li class="' . $vars['li_class'] . '">' . $item['content'] . '</li>';
+        }
+        $output .= implode($li_separator, $li_array);
+    }
+    return $output;
+}
+
+function theme_hover_block($vars) {
+    $output = '<div class="padding-box hover-view-box white">';
+    $output .= '<p>'.!empty($vars['performer']) ? str_replace($vars['performer'], '<span class="label label-warning">'.$vars['performer'].'</span>', $vars['body']) : $vars['body'].'</p>';
+    $output .= '<p class="align-right"><a href="'.$vars['uri_path'].'" class="read-more">'.$vars['link_title'].'</a></p></div>';
+    return $output;
+}
+
+function theme_photos_title($vars) {
+    $output = '<h4 class="decolumn_mini white">';
+    $output .= '<span itemscope itemtype="http://schema.org/'.$vars['itemType'].'"><a href="'.$vars['performance_path'].'"><span '.drupal_attributes($vars['performance_title_attributes']).'>'.$vars['performance_title'].'</span></a></span><span>&nbsp;&nbsp;at&nbsp;&nbsp;</span>';
+    $output .= '<span itemscope itemtype="http://schema.org/Event"><a href="'.$vars['show_path'].'"><span '.drupal_attributes($vars['show_title_attributes']).'>'.$vars['show_title'].'</span></a></span></h4>';
+    return $output;
+}
+
+function theme_performer_view($vars) {
+    $output = '<div class="'.$vars['class'].' decolumn_small">';
+    if(!empty($vars['performer_title'])) {
+        $output .= '<h5><a href="'.$vars['performer_path'].'" class="white underline">'.$vars['performer_title'].'</a></h5>';
+    }
+    $output .= '<div class="column_mini"><a class="clearfix" href="'.$vars['performer_path'].'">'.render($vars['performer_image']).'</a></div></div>';
+    return $output;
+}
+
+function theme_promo_image($vars) {
+    $output = '<img src="'.$vars['event_image_src'].'" /><p>Photograph taken during '.$vars['event_title'].'</p>';
+    return $output;
+}
+
+function theme_shows_progress_view($vars) {
+    $output = '<li class="bootstrap_title" title="'.$vars['show_status'].'" data-original-title="'.$vars['show_status'].'" '.$vars['attributes'].'>
+        <a itemprop="url" href="'.$vars['uri_path'].'">
+            <div class="'.$vars['show_class'].'" ><span itemprop="name">'.$vars['title'].'</span>
+                <span class="badge badge-inverse">&nbsp;&nbsp;'.$vars['show_status'].'</span></div></a></li>';
+    return $output;
+}
+
+/**
+* Implements hook_theme().
+*/
+function dannyscomedyclub_theme() {
+    return array(
+        'list_item_view' => array(
+            'vars' => array('items' => NULL),
+        ),
+        'hover_block' => array(
+            'vars' => NULL
+        ),
+        'photos_title' => array(
+            'vars' => NULL
+        ),
+        'performer_view' => array(
+            'vars' => NULL
+        ),
+        'promo_image' => array(
+            'vars' => NULL
+        ),
+        'shows_progress_view' => array(
+            'vars' => NULL
+        )
+    );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+/*if(module_exists('schemaorg')) :
+    
+function dannyscomedyclub_form_taxonomy_form_term_alter(&$form, $form_state) {
+//    schemaorg_ui_form_node_type_form_alter($form, $form_state);
+    if (isset($form_state['term'])) {
+        $bundle = $form['#bundle'];
+        $tid = $form_state['term']->tid;
+        $form['schemaorg_ui'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Schema.org settings'),
+          '#collapsible' => TRUE,
+          '#collapsed' => TRUE,
+          '#group' => 'additional_settings',
+        );
+        
+        $mapping = rdf_mapping_load('taxonomy_term', $bundle);
+        $form['schemaorg_ui']['schemaorg_ui_type'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Type'),
+          '#description' => t('Specify the type you want to associated to this content type e.g. Article, Blog, etc.'),
+          '#default_value' => isset($mapping['extra_fields']['schema_ui_type'][$tid]) ? str_replace('schema:', '', $mapping['extra_fields']['schema_ui_type'][$tid]) : '',
+          '#attributes' => array('class' => array('schemaorg-ui-autocomplete-types')),
+        );
+        $form['#submit'][] = 'dannyscomedyclub_taxonomy_term_form_submit';
+        // Use jQuery UI autocomplete to provide a faster autocomplete without
+        // callback to the server.
+        $form['#attached']['library'][] = array('system', 'ui.autocomplete');
+        $form['#attached']['css'][] = drupal_get_path('module', 'schemaorg_ui') . '/css/schemaorg_ui.jquery.ui.theme.css';
+        $form['#attached']['js'][] = drupal_get_path('module', 'schemaorg_ui') . '/js/schemaorg_ui.js';
+        $form['#attached']['js'][] =  array(
+              'data' => array('schemaorguiapiTermsPath' => base_path() . drupal_get_path('module', 'schemaorg_ui') . '/js/schemaorg_ui.terms.json'),
+              'type' => 'setting'
+        );
+    }
+}
+
+function dannyscomedyclub_taxonomy_term_delete($term) {
+    if($term->vocabulary_machine_name == 'performances_types') {
+        $mapping = rdf_mapping_load('taxonomy_term', $term->vocabulary_machine_name);
+        $mapping['extra_fields']['schema_ui_type'] = array_diff_key($mapping['extra_fields']['schema_ui_type'], array('tid' => $mapping['extra_fields']['schema_ui_type'][$term->tid]));
+        rdf_mapping_save(array(
+            'type' => 'taxonomy_term',
+            'bundle' => $term->vocabulary_machine_name,
+            'mapping' => $mapping,
+        ));
+    }
+}
+
+function dannyscomedyclub_taxonomy_term_form_submit($form, &$form_state) {
+  $bundle = $form_state['term']->vocabulary_machine_name;
+  rdf_mapping_delete('taxonomy_term', $bundle);
+  
+  $mapping = rdf_mapping_load('taxonomy_term', $bundle);
+  $tid = $form_state['term']->tid;
+  $mapping['extra_fields']['schema_ui_type'][$tid] = schemaorg_ui_terms_merge($form_state['values']['schemaorg_ui_type'], array());
+
+  rdf_mapping_save(array(
+    'type' => 'taxonomy_term',
+    'bundle' => $bundle,
+    'mapping' => $mapping,
+    )
+  );
+}
+
+endif;*/
+
+function dannyscomedyclub_field_is_empty($item, $field) {
+    if (empty($item['value']) && (string) $item['value'] !== '0') {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+function dannyscomedyclub_menu_breadcrumb_alter(&$active_trail, $item) {
+    $end = end($active_trail);
+    if ($item['href'] == $end['href']) {
+      $active_trail[] = $end;
+    }
+}
+
+function dcc_node_url_load($node_url) {
+    $nid = (int) str_replace('node/', '', drupal_lookup_path('source', $node_url));
+    return $nid ? node_load($nid) : FALSE;
+}
+
+?>

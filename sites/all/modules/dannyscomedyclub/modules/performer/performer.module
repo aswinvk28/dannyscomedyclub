@@ -1,0 +1,58 @@
+<?php 
+
+include_once __DIR__ . '/includes/entity/entity.info.inc';
+include_once __DIR__ . '/includes/form/artistes.node.form.inc';
+include_once __DIR__ . '/includes/form/performer.entity.form.inc';
+include_once __DIR__ . '/includes/menu/menu.default.inc';
+include_once __DIR__ . '/includes/node/artistes.node.crud.inc';
+include_once __DIR__ . '/includes/node/node.info.inc';
+include_once __DIR__ . '/includes/views/performer.views.inc';
+
+function artistes_page_list($page_number) {
+    $vars = array(
+        'page_number' => $page_number
+    );
+    DannysComedyClubRouteFactory::getRouteInstance()->content_render_variables__artistes($vars);
+    if(!empty($vars['result'])) {
+        $result = array();
+        foreach($vars['result']as $performerId => $performer) {
+            $nodeId = $performer->getBundle();
+            $uri = entity_uri($performer->entityType(), $performer);
+            $result[$nodeId] = array(
+                'title' => entity_label($performer->entityType(), $performer),
+                'link_url' => url($uri['path'], array('base_url' => true))
+            );
+        }
+        
+        if(!empty($result)) {
+            $nodeIds = array_keys($result);
+            $query = db_select('field_data_field_image', 'fdfi')->fields('fdfi', array(
+                'field_image_fid', 'entity_id'
+            ))->condition('fdfi.entity_id', $nodeIds, 'IN');
+            $queryResult = $query->execute()->fetchAllAssoc('field_image_fid');
+            array_walk($queryResult, function($value, $index) use(&$result) {
+                $file = file_load($value->field_image_fid);
+                $info = image_get_info($file->uri);
+                $position = strrpos($file->uri, '.'.$info['extension']);
+                $source = substr_replace($file->uri, '_w150', $position, 0);
+                $uri = file_create_url($source);
+                if(!file_exists(DRUPAL_ROOT . base_path() . 'sites/default/files/' . str_replace('public://', '', $source))) {
+                    $image = image_load($file->uri);
+                    image_scale($image, '150');
+                    $position = strrpos($image->source, '.'.$image->info['extension']);
+                    $source = substr_replace($image->source, '_w150', $position, 0);
+                    $image->source = $source;
+                    image_save($image);
+                    $uri = file_create_url($image->source);
+                }
+                $result[$value->entity_id]['image'] = $uri;
+            });
+            $return_array = array_values($result);
+            $return_array = is_array($return_array) ? $return_array : array($return_array);
+            return drupal_json_encode($return_array);
+        }
+    }
+    return false;
+}
+
+?>

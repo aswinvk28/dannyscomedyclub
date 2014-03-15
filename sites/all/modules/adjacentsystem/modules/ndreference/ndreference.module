@@ -1,0 +1,76 @@
+<?php 
+
+include_once __DIR__ . '/includes/entity/entity.info.inc';
+include_once __DIR__ . '/includes/field/field.ui.inc';
+include_once __DIR__ . '/includes/menu/menu.default.inc';
+include_once __DIR__ . '/includes/form/review.entity.form.inc';
+include_once __DIR__ . '/includes/form/press_release.entity.form.inc';
+include_once __DIR__ . '/includes/node/review.entity.crud.inc';
+include_once __DIR__ . '/includes/node/press_release.entity.crud.inc';
+include_once __DIR__ . '/includes/views/ndreference.views.inc';
+
+function ndreference_add_reference_nodes_wrapper($form, $form_state) {
+    $bundle_type = $form_state['values']['ajax_node_bundle'];
+    return ndreference_add_reference_nodes($form, $form_state, $bundle_type, TRUE);
+}
+
+function ndreference_add_reference_nodes($form, $form_state, $bundle_type = NULL, $ajax = FALSE) {
+    $options = array();
+    
+    $entity = $form_state['entity'];
+    
+    if(!empty($bundle_type)) {
+        $bundle = $bundle_type;
+        $nodes = node_load_multiple(array(), array(
+            'type' => $bundle
+        ));
+        foreach($nodes as $nid => $node) {
+            $options[$nid] = $node->title;
+        }
+    }
+    
+    $fields['entity_node_reference_id'] = array(
+        '#type' => 'select',
+        '#title' => t('Node Reference'),
+        '#description' => t('Select the Reference to the Node Bundle'),
+        '#options' => $options,
+        '#required' => TRUE,
+        '#empty_value' => '',
+        '#empty_option' => 'None Selected',
+        '#default_value' => !is_null($entity->getReference()) ? $entity->getReference() : '',
+        '#needs_validation' => NULL,
+        '#validated' => TRUE
+    );
+    
+    if($ajax) {
+        $fields['entity_node_reference_id']['#attributes'] = array('name' => 'entity_node_reference_id');
+    }
+    
+    return $fields;
+}
+
+function ndreference_block_info() {
+    return array(
+        'review' => array(
+            'properties' => array('administrative' => TRUE),
+            'status' => 1,
+            'info' => t('Review'),
+            'region' => 'sidebar',
+            'theme' => 'md_minimal'
+        ),
+        'press_release' => array(
+            'properties' => array('administrative' => TRUE),
+            'status' => 1,
+            'info' => t('Press Release'),
+            'region' => 'sidebar',
+            'theme' => 'md_minimal'
+        )
+    );
+}
+
+function ndreference_entity_object_load($entity_id, $entityType) {
+    $entity = entity_object_load($entity_id, $entityType);
+    return $entity->getBundleString() == $entityType ? $entity : FALSE;
+}
+
+?>

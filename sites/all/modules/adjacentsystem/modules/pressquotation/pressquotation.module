@@ -1,0 +1,46 @@
+<?php 
+
+include_once __DIR__ . '/includes/entity/entity.info.inc';
+include_once __DIR__ . '/includes/field/field.ui.inc';
+include_once __DIR__ . '/includes/form/pressquotation.entity.form.inc';
+include_once __DIR__ . '/includes/modules/node/hooks.inc';
+
+function pressquotation_fields_node_fetch($form, $form_state) {
+    $quote = entity_get_controller('pressquotation')->create(array());
+    
+    $fields = pressquotation_fields_node_replicate($form, $form_state, $quote, FALSE, '_plus', TRUE);
+    
+    return drupal_render($fields);
+}
+
+function pressquotation_fields_node_add(&$form, &$form_state) {
+    $form_state['rebuild'] = TRUE;
+    $quotes = QuoteCRUD::get_entity($form_state);
+    
+    if(!empty($form_state['values']['entity_quote']['quote_add'])) {
+        if($form_state['values']['entity_quote']['quote_add'] == 'add') {
+            return pressquotation_fields_node_fetch($form, $form_state);
+        } elseif($form_state['values']['entity_quote']['quote_add'] == 'save') {
+            if(!empty($form_state['node'])) {
+                $node_id = $form_state['node']->nid;
+            } elseif(!empty($form_state['entity'])) {
+                $node_id = $form_state['entity']->getBundle();
+            }
+            $save_array = array(
+                'entity_quote' => $form_state['values']['entity_quote'],
+                'nid' => $node_id
+            );
+            $object = (object) $save_array;
+            pressquotation_formfields_node_validate($object);
+            $errors = form_get_errors();
+            if(empty($errors)) {
+                pressquotation_fields_node_submit($object);
+            }
+            return 'saved';
+        }
+    } else {
+        return '';
+    }
+}
+
+?>

@@ -1,0 +1,14 @@
+name = Document Module
+description = "Provides functionalities to add documents"
+package = DannysComedyClub Technical
+
+dependencies[] = entity
+dependencies[] = entityfunctionality
+
+files[] = includes/entity/entity.controller.inc
+files[] = includes/entity/entity.crud.inc
+files[] = includes/entity/entity.inc
+
+version = "7.21"
+core = "7.x"
+project = "document"

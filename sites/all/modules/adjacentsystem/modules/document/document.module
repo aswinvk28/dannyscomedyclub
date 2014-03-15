@@ -1,0 +1,14 @@
+<?php 
+
+include_once __DIR__ . '/includes/entity/entity.info.inc';
+
+function document_fields_node_form_validate($node) {
+    if(empty($node->document_author) || !preg_match('/^[a-zA-Z0-9\s\w\ ]*$/', $node->document_author)) {
+        form_set_error('document_author', 'Enter valid Author Name');
+    }
+    if(empty($node->document_body) || !drupal_validate_utf8($node->document_body)) {
+        form_set_error('document_body', 'Enter valid strings for Document Body');
+    }
+}
+
+?>

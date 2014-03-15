@@ -1,0 +1,112 @@
+<?php
+
+class QuoteWebTestCase extends DrupalWebTestCase {
+    private $web_user;
+    private $save_array = array();
+    
+    public static function getInfo() {
+        return array(
+            'name' => 'DannysComedyClub Quote Entity Test Case',
+            'description' => 'Verifies operation of quote entity',
+            'group' => 'The Club',
+        );
+    }
+    
+    public function setUp() {
+        parent::setUp('system', 'node', 'taxonomy', 'entity', 'entityfunctionality', 'dannyscomedyclub', 'date', 'date_api', 'performer', 'pressquotation');
+        $this->web_user = $this->drupalCreateUser(array('edit own page content', 'create page content', 'bypass node access'));
+        $this->drupalLogin($this->web_user);
+    }
+    
+    public function testCreateQuoteEntity() {
+        $vocab = (object) array(
+            'name' => 'Agency',
+            'machine_name' => 'agency'
+        );
+        taxonomy_vocabulary_save($vocab);
+        echo "Vocab Saved\n";
+        $term = (object) array(
+            'vid' => $vocab->vid,
+            'name' => $this->randomName(8)
+        );
+        taxonomy_term_save($term);
+        echo "Agency Term Saved\n";
+        
+        $vocab2 = (object) array(
+            'name' => 'Author',
+            'machine_name' => 'author'
+        );
+        taxonomy_vocabulary_save($vocab2);
+        echo "Vocab Saved\n";
+        $term2 = (object) array(
+            'vid' => $vocab2->vid,
+            'name' => $this->randomName(8)
+        );
+        taxonomy_term_save($term2);
+        echo "Author Term Saved\n";
+        
+        $datetime = new DateTime('2010-02-03');
+        $date = $datetime->format(DATE_FORMAT_DATETIME);
+        $title = $this->randomName(8);
+        $this->save_array = array(
+            'quote_date_plus' =>  $date,
+            'entity_taxonomy_agency_id_plus' => $term->tid,
+            'entity_taxonomy_author_id_plus' => $term2->tid,
+            'quote_plus' => 'You will never hear the words ‘ET phone home’ again without sniggering. His parting shot about ‘following’ him is a brilliant kicker to an impressive set.',
+            'performer_email' => 'email@email.com',
+            'performer_fb' => 'http://www.facebook.com/DannysComedyClub',
+            'performer_twitter' => 'http://www.twitter.com/aswinvk28',
+            'performer_yt' => 'http://www.youtube.com/wacth?v=jhla-sihyu',
+            'performer_website' => 'http://www.website.com/asd=gb#gdj',
+            'performer_image_alt' => 'Alternate Text',
+            'performer_image_title' => 'Title Text',
+            'title' => $title,
+        );
+        
+        $admin_path = 'node/add/artistes';
+        $this->drupalPost($admin_path, $this->save_array, t('Save'));
+        $node = $this->drupalGetNodeByTitle($title);
+        
+        echo "Artiste Node Generated with Node ID = $node->nid\n";
+        
+        $entity = entity_get_controller('pressquotation')->readEntitiesFromNode($node->nid, 'reference');
+        $entity_id = key($entity);
+        
+        echo "Quote Entity Generated with Quote Entity ID = $entity_id Quote Entity as = $entity[$entity_id]\n";
+        
+        $entity[$entity_id]->getQuote();
+        
+        if($this->assertEqual($entity[$entity_id]->getEntityId(), $entity_id, t('To match Quote IDs'))) {
+            echo "quote ids match\n";
+        } else {
+            echo "quote ids do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getReference(), $node->nid, t('To match Quote Reference Node IDs'))) {
+            echo "quote reference node ids match\n";
+        } else {
+            echo "quote reference node ids do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getQuoteBody(), $this->save_array['quote_plus'], t('To match Quote Bodys'))) {
+            echo "quote bodys match\n";
+        } else {
+            echo "quote bodys do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getAgency(), $this->save_array['entity_taxonomy_agency_id_plus'], t('To match Quote Agencies'))) {
+            echo "quote agencys match\n";
+        } else {
+            echo "quote agencys do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getAuthor(), $this->save_array['entity_taxonomy_author_id_plus'], t('To match Quote Authors'))) {
+            echo "quote authors match\n";
+        } else {
+            echo "quote authors do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getDate(), $this->save_array['quote_date_plus'], t('To match Quote Dates'))) {
+            echo "quote dates match\n";
+        } else {
+            echo "quote dates do not match\n";
+        }
+    }
+}
+
+?>

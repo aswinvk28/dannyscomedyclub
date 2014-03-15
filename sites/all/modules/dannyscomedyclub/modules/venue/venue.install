@@ -1,0 +1,60 @@
+<?php 
+
+function venue_schema() {
+    $schema = array();
+    
+    $schema['dcc_entity_venue'] = array(
+        'description' => 'Venues of the club',
+        'fields' => array(
+            'venue_id' => array(
+                'type' => 'serial', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_node_bundle_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_document_id' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => FALSE,
+                'default' => NULL),
+            'venue_url' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => FALSE,
+                'default' => NULL),
+            'venue_geo_lat' => array(
+                'type' => 'float',
+                'unsigned' => FALSE, 
+                'not null' => FALSE,
+                'default' => NULL),
+            'venue_geo_long' => array(
+                'type' => 'float',
+                'unsigned' => FALSE, 
+                'not null' => FALSE,
+                'default' => NULL),
+            'venue_location' => array(
+                'type' => 'varchar',
+                'length' => 128,
+                'not null' => TRUE),
+            'venue_address' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE),
+            'venue_telephone' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => FALSE,
+                'default' => NULL)
+        ),
+        'unique keys' => array('venue_node' => array('entity_node_bundle_id')),
+        'primary key' => array('venue_id'),
+        'indexes' => array('document' => array('entity_document_id')),
+        'foreign keys' => array()
+    );
+    
+    return $schema;
+}
+
+?>

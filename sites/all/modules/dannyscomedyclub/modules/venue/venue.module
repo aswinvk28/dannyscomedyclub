@@ -1,0 +1,24 @@
+<?php
+
+include_once __DIR__ . '/includes/entity/entity.info.inc';
+include_once __DIR__ . '/includes/field/field.ui.inc';
+include_once __DIR__ . '/includes/form/venue.entity.form.inc';
+include_once __DIR__ . '/includes/form/venue.node.form.inc';
+include_once __DIR__ . '/includes/menu/menu.default.inc';
+include_once __DIR__ . '/includes/modules/event/hooks.inc';
+include_once __DIR__ . '/includes/node/node.info.inc';
+include_once __DIR__ . '/includes/node/venue.node.crud.inc';
+include_once __DIR__ . '/includes/views/venue.preprocess.inc';
+
+function venue_entity_object_load($alias) {
+    $source_path = drupal_lookup_path('source', $alias);
+    if($source_path) {
+        $entity = entity_load('venue', FALSE, array(
+            'entity_node_bundle_id' => (int) str_replace('node/', '', $source_path)
+        ));
+        return reset($entity);
+    }
+    return FALSE;
+}
+
+?>

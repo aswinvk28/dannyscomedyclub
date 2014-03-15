@@ -1,0 +1,20 @@
+name = Node Document Reference Module
+description = "Provides a capability to reference the node and document entities for the adjacent system of the club"
+package = Adjacent_System
+
+dependencies[] = document
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = entity
+dependencies[] = entityfunctionality
+
+files[] = includes/entity/entity.controller.inc
+files[] = includes/entity/entity.wrapper.inc
+files[] = includes/entity/entity.crud.inc
+files[] = includes/entity/entity.inc
+files[] = includes/node/node.info.inc
+files[] = includes/node/reviews.node.crud.inc
+
+version = "7.21"
+core = "7.x"
+project = "ndreference"

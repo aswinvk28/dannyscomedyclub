@@ -1,0 +1,29 @@
+<?php 
+
+class ReviewWebTestCase extends DrupalWebTestCase {
+    private $node;
+    
+    private $save_array;
+    
+    public static function getInfo() {
+        return array(
+            'name' => 'DannysComedyClub Review Node Test Case',
+            'description' => 'Verifies operation of a review node.',
+            'group' => 'The Club',
+        );
+    }
+    
+    public function setUp() {
+        parent::setUp('field', 'system', 'node', 'entity', 'entityfunctionality', 'dannyscomedyclub', 'ndreference');
+    }
+    
+    public function testCreateReviewNode() {
+        $this->node = $this->drupalCreateNode(array(
+            'title' => $this->randomName(8),
+            'type' => 'reviews',
+            
+        ));
+    }
+}
+
+?>

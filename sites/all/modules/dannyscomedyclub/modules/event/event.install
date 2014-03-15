@@ -1,0 +1,140 @@
+<?php 
+
+include_once dirname(__FILE__) . '/includes/entity/event/entity.info.inc';
+include_once dirname(__FILE__) . '/includes/field/field.ui.inc';
+include_once dirname(__FILE__) . '/includes/field/field.ui.inc';
+
+function event_schema() {
+    $schema = array();
+    
+    $schema['dcc_entity_event'] = array(
+        'description' => 'Events of the club',
+        'fields' => array(
+            'event_id' => array(
+                'type' => 'serial', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_taxonomy_event_status_id' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => FALSE,
+                'default' => NULL),
+            'event_bundle' => array(
+                'type' => 'varchar',
+                'length' => 32,
+                'not null' => TRUE),
+            'event_name' => array(
+                'type' => 'varchar', 
+                'length' => 128,
+                'not null' => FALSE,
+                'default' => NULL),
+            'image_caption' => array(
+                'type' => 'varchar',
+                'length' => 32,
+                'not null' => FALSE,
+                'default' => NULL),
+            'event_url' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => FALSE,
+                'default' => NULL),
+            'event_image_file_id' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => FALSE,
+                'default' => NULL),
+            'event_image_event_id' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => FALSE,
+                'default' => NULL),
+            'event_date' => array(
+                'type' => 'datetime',
+                'mysql_type' => 'datetime',
+                'not null' => FALSE,
+                'sortable' => TRUE,
+                'views' => TRUE,
+                'default' => NULL)
+        ),
+        'indexes' => array('status' => array('entity_taxonomy_event_status_id'), 'image' => array('event_image_file_id', 'event_image_event_id'), 'date' => array('event_date'), 'bundle' => array('event_bundle')),
+        'primary key' => array('event_id')
+    );
+    
+    $schema['dcc_entity_performance'] = array(
+        'description' => 'Performances of the club',
+        'fields' => array(
+            'performance_id' => array(
+                'type' => 'serial', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_event_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_node_bundle_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_node_shows_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_performer_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_taxonomy_performances_types_id' => array(
+                'type' => 'int',
+                'unsigned' => TRUE, 
+                'not null' => FALSE,
+                'default' => NULL),
+            'performance_order' => array(
+                'type' => 'int',
+                'size' => 'tiny',
+                'unsigned' => TRUE, 
+                'not null' => FALSE,
+                'default' => NULL),
+            'performance_video' => array(
+                'type' => 'varchar',
+                'length' => 128,
+                'not null' => FALSE,
+                'default' => NULL)
+        ),
+        'indexes' => array('node_performance' => array('entity_node_bundle_id'), 'node_show' => array('entity_node_shows_id'), 'performer' => array('entity_performer_id'), 'event' => array('entity_event_id')
+            , 'performance_type' => array('entity_taxonomy_performances_types_id')),
+        'unique keys' => array('performance' => array('performance_id', 'entity_node_shows_id', 'entity_performer_id'), 
+            'performance_node' => array('entity_node_bundle_id', 'entity_node_shows_id', 'entity_performer_id')),
+        'primary key' => array('performance_id'),
+        'foreign keys' => array()
+    );
+    
+    $schema['dcc_entity_show'] = array(
+        'description' => 'Shows of the club',
+        'fields' => array(
+            'show_id' => array(
+                'type' => 'serial', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_event_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_node_bundle_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_node_venue_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => FALSE,
+                'default' => NULL)
+        ),
+        'unique keys' => array('node_show' => array('entity_node_bundle_id'), 'event_show' => array('entity_event_id')),
+        'indexes' => array('venue' => array('entity_node_venue_id')),
+        'primary key' => array('show_id')
+    );
+    
+    return $schema;
+}
+
+?>

@@ -1,0 +1,8 @@
+<?php
+
+class NodeDocumentReferenceController extends BundleReferenceNodeEntityCRUD implements BundleNodeEntityCRUDInterface, ReferenceNodeEntityCRUDInterface, EntityAPIControllerInterface {}
+
+class ReviewController extends NodeDocumentReferenceController implements EntityAPIControllerInterface {}
+class PressReleaseController extends NodeDocumentReferenceController implements EntityAPIControllerInterface {}
+
+?>

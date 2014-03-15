@@ -1,0 +1,64 @@
+<?php 
+
+function entityfunctionality_entity_info_alter(&$entity_info) {
+    $entity_info['node']['entity class'] = 'NodeEntity';
+}
+
+function entityfunctionality_permission() {
+    return array(
+        'entity_access' => array(
+            'title' => t('Access to Entity'),
+        )
+    );
+}
+
+function entity_node_label($entity, $entity_type = NULL) {
+    return $entity->getBundleTitle();
+}
+
+function entityfunctionality_set_entity_bundle_node($entityType, $node) {
+    if(is_object($node) && property_exists($node, 'nid')) {
+        $entities = entity_load($entityType, FALSE, array(
+            'entity_node_bundle_id' => $node->nid
+        ));
+        $entity = reset($entities);
+    } else {
+        $entity = entity_get_controller($entityType)->create(array());
+    }
+    return $entity;
+}
+
+function entityfunctionality_set_entity_reference_node($entityType, $node) {
+    if(is_object($node) && property_exists($node, 'nid')) {
+        $entity = entity_load($entityType, FALSE, array(
+            'entity_node_reference_id' => $node->nid
+        ));
+    } else {
+        $entity = entity_get_controller($entityType)->create(array());
+    }
+    return $entity;
+}
+
+function entityfunctionality_set_entity_reference_node_entity($entityType, $entity) {
+    if(!is_null($entity->getEntityId())) {
+        $entity = entity_load($entityType, FALSE, array(
+            'entity_node_reference_id' => $entity->getBundle()
+        ));
+    } else {
+        $entity = entity_get_controller($entityType)->create(array());
+    }
+    return $entity;
+}
+
+function dannyscomedyclub_entity_access() {
+    global $user;
+    
+    $perms = user_role_permissions($user->roles);
+    $rid = array_search('authenticated user', $user->roles);
+    if(!empty($rid)) {
+        return in_array('entity access', $perms[$rid]);
+    }
+    return FALSE;
+}
+
+?>

@@ -1,0 +1,26 @@
+name = DannysComedyClub Event Module
+description = "Events of the club"
+package = DannysComedyClub Club Events
+
+dependencies[] = dannyscomedyclub
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = performer
+dependencies[] = entity
+dependencies[] = entityfunctionality
+
+files[] = includes/entity/event/entity.controller.inc
+files[] = includes/entity/event/entity.crud.inc
+files[] = includes/entity/event/entity.wrapper.inc
+files[] = includes/entity/event/entity.inc
+files[] = includes/entity/show/entity.controller.inc
+files[] = includes/entity/show/entity.crud.inc
+files[] = includes/entity/show/entity.inc
+files[] = includes/entity/performance/entity.controller.inc
+files[] = includes/entity/performance/entity.crud.inc
+files[] = includes/entity/performance/entity.wrapper.inc
+files[] = includes/entity/performance/entity.inc
+
+version = "7.21"
+core = "7.x"
+project = "event"

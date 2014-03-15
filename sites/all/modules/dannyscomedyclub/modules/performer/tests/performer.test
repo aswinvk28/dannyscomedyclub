@@ -1,0 +1,157 @@
+<?php
+
+class PerformerWebTestCase extends DrupalWebTestCase {
+    private $node;
+    private $entity_id;
+    public $save_array = array(
+        'performer_email' => 'email@email.com',
+        'performer_fb' => 'http://www.facebook.com/DannysComedyClub',
+        'performer_twitter' => 'http://www.twitter.com/aswinvk28',
+        'performer_yt' => 'http://www.youtube.com/wacth?v=jhla-sihyu',
+        'performer_website' => 'http://www.website.com/asd=gb#gdj',
+        'performer_image_alt' => 'Alternate Text',
+        'performer_image_title' => 'Title Text',
+        'performer_opt' => array('test' => 'success', 'failure')
+    );
+    
+    public static function getInfo() {
+        return array(
+            'name' => 'DannysComedyClub Performer Nodes Test Case',
+            'description' => 'Verifies operation of performer nodes.',
+            'group' => 'The Club',
+        );
+    }
+    
+    public function setUp() {
+        parent::setUp('field', 'system', 'node', 'entity', 'entityfunctionality', 'dannyscomedyclub', 'performer');
+    }
+    
+    public function getNode() {
+        return $this->node;
+    }
+    
+    public function getEntityId() {
+        return $this->entity_id;
+    }
+    
+    public function testCreateArtisteNode() {
+        $this->createArtisteNode();
+        
+        $this->updateArtisteNode();
+    }
+    
+    public function createArtisteNode() {
+        $file = new stdClass();
+        $file->uri = DRUPAL_ROOT . base_path() . 'sites/default/files/resources/Meridian_FM_Logo.jpg';
+        $file->status = 1;
+        $file->filename = 'Meridian_FM_Logo.jpg';
+        $file->filemime = 'image/jpeg';
+        
+        $file = file_save($file);
+        
+        $this->node = $this->drupalCreateNode(array(
+            'type' => 'artistes',
+            'title' => $this->randomName(8),
+            'performer_image_file_id' => $file->fid
+        ) + $this->save_array);
+        
+        $entity_cmp = entity_get_controller('performer')->readEntitiesFromNode($this->node->nid, 'bundle');
+        $entity_id_cmp = key($entity_cmp);
+        $entity_cmp[$entity_id_cmp]->getOptions();
+        
+        $node = node_load($this->node->nid);
+        
+        $entity = entity_get_controller('performer')->readEntitiesFromNode($node->nid, 'bundle');
+        $entity_id = key($entity_cmp);
+        $entity[$entity_id]->getOptions();
+        
+        if($this->assertEqual($entity[$entity_id]->getEntityId(), $entity_cmp[$entity_id_cmp]->getEntityId(), t('To match Performer IDs'))) {
+            $this->entity_id = $entity_id;
+            echo "performer ids match\n";
+        } else {
+            echo "performer ids do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getEmail(), $entity_cmp[$entity_id_cmp]->getEmail(), t('To match Venue emails'))) {
+            echo "performer emails match\n";
+        } else {
+            echo "performer emails do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getFB(), $entity_cmp[$entity_id_cmp]->getFB(), t('To match Performer FB'))) {
+            echo "performer FBs match\n";
+        } else {
+            echo "performer FBs do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getTwitter(), $entity_cmp[$entity_id_cmp]->getTwitter(), t('To match Performer Twitters'))) {
+            echo "performer twitters match\n";
+        } else {
+            echo "performer twitters do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getYt(), $entity_cmp[$entity_id_cmp]->getYt(), t('To match Yt Links'))) {
+            echo "performer Yts match\n";
+        } else {
+            echo "performer Yts do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getWebsite(), $entity_cmp[$entity_id_cmp]->getWebsite(), t('To match Performer Websites'))) {
+            echo "performer websites match\n";
+        } else {
+            echo "performer websites do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getPerformerOptions(), $entity_cmp[$entity_id_cmp]->getPerformerOptions(), t('To match Performer Options'))) {
+            echo "performer options match\n";
+        } else {
+            echo "performer options do not match\n";
+        }
+    }
+    
+    public function updateArtisteNode() {
+        
+        $file = new stdClass();
+        $file->uri = DRUPAL_ROOT . base_path() . 'sites/default/files/performances-poster-image/Michael-Mooney.jpg';
+        $file->statis = 1;
+        $file->filename = 'Michael-Mooney.jpg';
+        $file->filemime = 'image/jpeg';
+        
+        $file = file_save($file);
+        
+        $node = $this->drupalCreateNode(array(
+            'title' => $this->randomName(8),
+            'type' => 'artistes',
+            'nid' => $this->node->nid,
+            'vid' => $this->node->vid,
+            'performer_image_file_id' => $file->fid,
+            'performer_fb' => 'http://www.facebook.com/DannysComedyClub/ajsdhfkh',
+            'performer_twitter' => 'http://www.twitter.com/username2829',
+        ) + $this->save_array);
+        
+        $entity = entity_get_controller('performer')->readEntitiesFromNode($node->nid, 'bundle');
+        $entity_id = key($entity);
+        $entity[$entity_id]->getOptions();
+        
+        echo "\n".$entity[$entity_id]->getImageFile()."\n";
+        
+        if($this->assertEqual($entity[$entity_id]->getImageFile(), $file->fid, t('To match Performer Image File IDs'))) {
+            echo "Update: performer image file IDs match\n";
+        } else {
+            echo "Update: performer image File IDs do not match\n";
+        }
+        
+        echo "\n".$entity[$entity_id]->getFB()."\n";
+        
+        if($this->assertEqual($entity[$entity_id]->getFB(), 'http://www.facebook.com/DannysComedyClub/ajsdhfkh', t('To match Performer FBs'))) {
+            echo "Update: performer fbs match\n";
+        } else {
+            echo "Update: performer fbs do not match\n";
+        }
+        
+        echo "\n".$entity[$entity_id]->getTwitter()."\n";
+        
+        if($this->assertEqual($entity[$entity_id]->getTwitter(), 'http://www.twitter.com/username2829', t('To match Performer Twitters'))) {
+            echo "Update: performer twitters match\n";
+        } else {
+            echo "Update: performer twitters do not match\n";
+        }
+    }
+    
+}
+
+?>

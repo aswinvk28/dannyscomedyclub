@@ -1,0 +1,34 @@
+<?php
+
+function document_schema() {
+    
+    $schema = array();
+    
+    $schema['dcc_entity_document'] = array(
+        'description' => 'Documents managed',
+        'fields' => array(
+            'document_id' => array(
+                'type' => 'serial', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'document_file_id' => array(
+                'type' => 'int', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'document_author' => array(
+                'type' => 'varchar', 
+                'length' => 40, 
+                'not null' => FALSE, 
+                'default' => NULL)
+        ),
+        'indexes' => array('file' => array('document_file_id'), 'author' => array('document_author')),
+        'primary key' => array('document_id'),
+        'unique keys' => array(),
+        'foreign keys' => array()
+    );
+    
+    return $schema;
+    
+}
+
+?>

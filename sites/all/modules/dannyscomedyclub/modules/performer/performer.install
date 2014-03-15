@@ -1,0 +1,86 @@
+<?php 
+
+function performer_schema() {
+    $schema = array();
+    
+    $schema['dcc_entity_performer'] = array(
+        'description' => 'Performers of the club',
+        'fields' => array(
+            'performer_id' => array(
+                'type' => 'serial', 
+                'unsigned' => TRUE, 
+                'not null' => TRUE),
+            'entity_node_bundle_id' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE),
+            'entity_user_id' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => FALSE,
+                'default' => NULL),
+            'performer_email' => array(
+                'type' => 'varchar',
+                'length' => 128,
+                'not null' => FALSE,
+                'default' => NULL),
+            'performer_fb' => array(
+                'type' => 'varchar',
+                'length' => 128,
+                'not null' => FALSE,
+                'default' => NULL),
+            'performer_twitter' => array(
+                'type' => 'varchar',
+                'length' => 128,
+                'not null' => FALSE,
+                'default' => NULL),
+            'performer_yt' => array(
+                'type' => 'varchar',
+                'length' => 128,
+                'not null' => FALSE,
+                'default' => NULL),
+            'performer_website' => array(
+                'type' => 'varchar',
+                'length' => 128,
+                'not null' => FALSE,
+                'default' => NULL),
+            'performer_opt' => array(
+                'type' => 'blob',
+                'not null' => FALSE,
+                'default' => NULL)
+        ),
+        'indexes' => array('node_bundle' => array('entity_node_bundle_id')),
+        'unique keys' => array('user' => array('entity_user_id')),
+        'primary key' => array('performer_id')
+    );
+    
+    return $schema;
+}
+
+function performer_install() {
+//    $transaction = db_transaction('field_create_instance');
+//    try {
+//        field_create_instance(array(
+//            'field_name' => 'field_entityreference',
+//            'label' => t('Group Performers'),
+//            'description' => t('Specify the Performers of the Group'),
+//            'required' => TRUE,
+//            'entity_type' => 'node',
+//            'bundle' => 'groups',
+//            'display' => array(
+//                'default' => array(
+//                    'label' => 'hidden',
+//                    'type' => 'date_default',
+//                    'weight' => 0
+//                )
+//            ),
+//            'widget' => array(
+//                'type' => 'date_select'
+//            )
+//        ));
+//    } catch (Exception $e) {
+//        $transaction->rollback();
+//    }
+}
+
+?>

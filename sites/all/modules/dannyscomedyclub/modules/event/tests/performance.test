@@ -1,0 +1,151 @@
+<?php
+
+class PerformanceWebTestCase extends DrupalWebTestCase {
+    private $node;
+    private $show_id;
+    private $performer_id;
+    private $save_array = array(
+        'event_name' => 'Event Name',
+        'image_caption' => 'Caption',
+        'performance_order' => 5,
+        'performance_video' => 'http://wwww.youtube.com/watch?v=ghjas_083',
+        'event_url' => 'http://www.gogole.com/?a=hjbk&bdh=37#647348-678!_8',
+        'event_image_event_id' => NULL,
+    );
+    
+    public function __construct($test_id, $show_id, $performer_id) {
+        parent::__construct($test_id);
+        $this->show_id = $show_id;
+        $this->performer_id = $performer_id;
+    }
+    
+    public static function getInfo() {
+        return array(
+            'name' => 'DannysComedyClub Performance Node Test Case',
+            'description' => 'Verifies operation of performance node.',
+            'group' => 'The Club',
+        );
+    }
+    
+    public function setUp() {
+        parent::setUp('field', 'system', 'node', 'entity', 'entityfunctionality', 'dannyscomedyclub', 'event', 'show', 'performer', 'performance');
+    }
+    
+    public function testCreatePerformanceNode() {
+        $this->createPerformanceNode();
+        
+        $this->updatePerformanceNode();
+    }
+    
+    public function createPerformanceNode() {
+        $vocab = (object) array(
+            'name' => 'Performances Types',
+            'machine_name' => 'performances_types'
+        );
+        taxonomy_vocabulary_save($vocab);
+        echo "Vocab Saved\n";
+        $term = (object) array(
+            'vid' => $vocab->vid,
+            'name' => $this->randomName(8)
+        );
+        taxonomy_term_save($term);
+        echo "Term Saved\n";
+        
+        $vocab2 = taxonomy_vocabulary_machine_name_load('event_status');
+        echo "Vocab Saved\n";
+        $term2 = (object) array(
+            'vid' => $vocab2->vid,
+            'name' => $this->randomName(8)
+        );
+        taxonomy_term_save($term2);
+        echo "Term Saved\n";
+        
+        $this->node = $this->drupalCreateNode(array(
+            'entity_taxonomy_event_status_id' => $term2->tid,
+            'entity_taxonomy_performances_types_id' => $term->tid,
+            'event_image_file_id' => NULL,
+            'entity_node_shows_id' => $this->show_id,
+            'entity_performer_id' => $this->performer_id,
+            'title' => $this->randomName(8),
+            'type' => 'performances'
+        ) + $this->save_array);
+        
+        $entities = entity_get_controller('performance')->readEntitiesFromNode($this->node->nid, 'performances');
+        $entity_id = key($entities);
+        $entities[$entity_id]->getParentEntity()->getImage();
+        
+        if($this->assertEqual($entities[$entity_id]->getPerformance(), $this->node->nid, t('To match Performance Node IDs'))) {
+            echo "performance node ids match\n";
+        } else {
+            echo "performance node ids do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getShow(), $this->show_id, t('To match Show Node IDs'))) {
+            echo "performance node ids match\n";
+        } else {
+            echo "performance node ids do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getPerformer(), $this->performer_id, t('To match Performer IDs'))) {
+            echo "venue ids match\n";
+        } else {
+            echo "venue ids do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getParentEntity()->getEventImage(), NULL, t('To match Image File IDs'))) {
+            echo "performance image file ids match\n";
+        } else {
+            echo "performance image file ids do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getParentEntity()->getUrl(), 'http://www.gogole.com/?a=hjbk&bdh=37#647348-678!_8', t('To match performance Event URLs'))) {
+            echo "performance event urls match\n";
+        } else {
+            echo "performance event urls do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getParentEntity()->getName(), 'Event Name', t('To match performance Event Names'))) {
+            echo "performance event names match\n";
+        } else {
+            echo "performance event names do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getParentEntity()->getImageCaption(), 'Caption', t('To match performance Image Captions'))) {
+            echo "performance image captions match\n";
+        } else {
+            echo "performance image captions do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getParentEntity()->getEventStatus(), $term2->tid, t('To match performance Event Statuses'))) {
+            echo "performance event statuses match\n";
+        } else {
+            echo "performance event statuses do not match\n";
+        }
+    }
+    
+    public function updatePerformanceNode() {
+        
+    }
+}
+
+class PerformanceTestSuite extends DrupalWebTestCase {
+    public static function getInfo() {
+        return array(
+            'name' => 'DannysComedyClub Performance Test Suite',
+            'description' => 'Tests Performance test case, Show Test Case and Performer Test Case',
+            'group' => 'The Club',
+        );
+    }
+    
+    public function setUp() {
+        parent::setUp('field', 'system', 'node', 'entity', 'entityfunctionality', 'dannyscomedyclub', 'event', 'show', 'performer', 'performance');
+    }
+    
+    public function testShowOperation() {
+        $show_test_case = new ShowWebTestCase($this->testId, NULL);
+        $show_test_case->createShowNode();
+        $show_id = $show_test_case->getNode()->nid;
+        
+        $performer_test_case = new PerformerWebTestCase($this->testId);
+        $performer_test_case->createArtisteNode();
+        $performer_id = $performer_test_case->getEntityId();
+        
+        $performance_test_case = new PerformanceWebTestCase($this->testId, $show_id, $performer_id);
+        $performance_test_case->createPerformanceNode();
+    }
+}
+
+?>

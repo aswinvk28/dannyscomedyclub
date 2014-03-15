@@ -1,0 +1,6 @@
+<?php
+
+include_once __DIR__ . '/includes/entity/entity.info.inc';
+include_once __DIR__ . '/includes/field/field.ui.inc';
+
+?>

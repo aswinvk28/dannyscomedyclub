@@ -1,0 +1,17 @@
+name = DannysComedyClub Venue Module
+description = "Venues of the club"
+package = DannysComedyClub
+
+dependencies[] = dannyscomedyclub
+dependencies[] = document
+dependencies[] = entity
+dependencies[] = entityfunctionality
+
+files[] = includes/entity/entity.controller.inc
+files[] = includes/entity/entity.wrapper.inc
+files[] = includes/entity/entity.crud.inc
+files[] = includes/entity/entity.inc
+
+version = "7.21"
+core = "7.x"
+project = "venue"

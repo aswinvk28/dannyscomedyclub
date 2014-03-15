@@ -1,0 +1,164 @@
+<?php 
+
+class VenueWebTestCase extends DrupalWebTestCase {
+    private $node;
+    private $save_array = array(
+        'venue_url' => 'http://www.birchhotel.com',
+        'venue_geo_lat' => 62.3412,
+        'venue_geo_long' => 45.2098,
+        'venue_address' => 'Beechwood Close., 12345 Address, Post Code: TW16 5BP',
+        'venue_location' => 'Location Rd., Sunbury City',
+        'venue_telephone' => 02034567899,
+        'document_body' => 'Document Body Hello, Document Body Hello, Document Body Hello, Document Body Hello',
+        'document_author' => 'Author'
+    );
+    
+    public static function getInfo() {
+        return array(
+            'name' => 'DannysComedyClub Venue Node Test Case',
+            'description' => 'Verifies operation of a venue node.',
+            'group' => 'The Club',
+        );
+    }
+    
+    public function getNode() {
+        return $this->node;
+    }
+    
+    public function setUp() {
+        parent::setUp('field', 'system', 'node', 'entity', 'entityfunctionality', 'dannyscomedyclub', 'adjacentsystem' , 'venue');
+        $this->web_user = $this->drupalCreateUser(array('edit own page content', 'create page content', 'bypass node access', 'entity access'));
+        $this->drupalLogin($this->web_user);
+    }
+    
+    public function testCreateVenue() {
+        $this->CreateVenueNodeFromEntity();
+    }
+    
+    public function CreateVenueNodeFromEntity() {
+        $title = $this->randomName(8);
+        $save_array = array_merge($this->save_array, array(
+            'title' => $title,
+        ));
+        
+        $admin_path = 'admin/venue/add';
+        $this->drupalPost($admin_path, $save_array, t('Save'));
+        $node = $this->drupalGetNodeByTitle($title);
+        
+        $entity = entity_get_controller('venue')->readEntitiesFromBundleNode($node->nid);
+        $entity_id = key($entity);
+        
+        echo "Quote Entity Generated with Quote Entity ID = $entity_id Quote Entity as = $entity[$entity_id]\n";
+        
+        echo $entity[$entity_id]->getParentEntity()->getDocumentBody()."\n";
+        echo $entity[$entity_id]->getParentEntity()->getAuthor()."\n";
+        $entity[$entity_id]->getGeo(); $entity[$entity_id]->getAddress();
+        echo $entity[$entity_id]->getVenueAddress()."\n";
+        echo $entity[$entity_id]->getVenueLocation()."\n";
+        echo $entity[$entity_id]->getVenueTelephone()."\n";
+        echo $entity[$entity_id]->getVenueGeoLat()."\n";
+        echo $entity[$entity_id]->getVenueGeoLong()."\n";
+    }
+    
+    public function createVenueNode() {
+        $save_array = array_merge($this->save_array, array(
+            'title' => $this->randomName(8),
+            'type' => 'venue'
+        ));
+
+        $this->node = $this->drupalCreateNode($save_array);
+
+        $entity_cmp = EntityFactory::getEntityInstancesFromBundleNode('venue', $this->node->nid);
+        $entity_id_cmp = key($entity_cmp);
+        $entity_cmp[$entity_id_cmp]->getParentEntity();
+        
+        $node = node_load($this->node->nid);
+
+        $entity = entity_get_controller('venue')->readEntitiesFromBundleNode($node->nid);
+        $entity_id = key($entity);
+        $entity[$entity_id]->getParentEntity();
+
+        if($this->assertEqual($entity[$entity_id]->getEntityId(), $entity_cmp[$entity_id_cmp]->getEntityId(), t('To match Venue IDs'))) {
+            echo "venue ids match\n";
+        } else {
+            echo "venue ids do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getVenueUrl(), $entity_cmp[$entity_id_cmp]->getVenueUrl(), t('To match Venue URLs'))) {
+            echo "venue urls match\n";
+        } else {
+            echo "venue urls do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getGeo()->venue_geo_lat, $entity_cmp[$entity_id_cmp]->getGeo()->venue_geo_lat, t('To match Venue Geo Lats'))) {
+            echo "venue geo lats match\n";
+        } else {
+            echo "venue geo lats do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getGeo()->venue_geo_long, $entity_cmp[$entity_id_cmp]->getGeo()->venue_geo_long, t('To match Venue Geo Longs'))) {
+            echo "venue geo longs match\n";
+        } else {
+            echo "venue geo longs do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getAddress()->venue_address, $entity_cmp[$entity_id_cmp]->getAddress()->venue_address, t('To match Venue Geo Addresses'))) {
+            echo "venue geo addresses match\n";
+        } else {
+            echo "venue geo addresses do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getAddress()->venue_location, $entity_cmp[$entity_id_cmp]->getAddress()->venue_location, t('To match Venue Geo Locations'))) {
+            echo "venue geo locations match\n";
+        } else {
+            echo "venue geo locations do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getAddress()->venue_telephone, $entity_cmp[$entity_id_cmp]->getAddress()->venue_telephone, t('To match Venue Geo Telephones'))) {
+            echo "venue geo telephones match\n";
+        } else {
+            echo "venue geo telephones do not match\n";
+        }
+        
+        if($this->assertEqual($entity[$entity_id]->getParentEntity()->getFile(), $entity_cmp[$entity_id_cmp]->getParentEntity()->getFile(), t('To match Venue Document Files'))) {
+            echo "venue document files match\n";
+        } else {
+            echo "venue document files do not match\n";
+        }
+        if($this->assertEqual($entity[$entity_id]->getParentEntity()->getDocumentBody(), $entity_cmp[$entity_id_cmp]->getParentEntity()->getDocumentBody(), t('To match Venue Document Bodys'))) {
+            echo "venue document bodys match\n";
+        } else {
+            echo "venue document bodys do not match\n";
+        }
+    }
+    
+    public function updateVenueNode() {
+        $node = $this->drupalCreateNode(array(
+            'nid' => $this->node->nid,
+            'venue_url' => 'http://www.google.com/?b=c&bagdbh=6487376#dbsi',
+            'venue_telephone' => 02837929678,
+            'venue_geo_lat' => 62.3412,
+            'venue_geo_long' => 45.2098,
+            'venue_address' => 'Beechwood Close., 12345 Address, Post Code: TW16 5BP',
+            'venue_location' => 'Location Rd., Sunbury City',
+            'title' => $this->randomName(8),
+            'type' => 'venue',
+            'vid' => $this->node->vid
+        ));
+        
+        $entity = entity_get_controller('venue')->readEntitiesFromNode($this->node->nid, 'venue');
+        $entity_id = key($entity);
+        
+        echo "\n".$entity[$entity_id]->getVenueUrl()."\n";
+        
+        if($this->assertEqual($entity[$entity_id]->getVenueUrl(), 'http://www.google.com/?b=c&bagdbh=6487376#dbsi', t('To match Venue URLs'))) {
+            echo "Update: venue urls match\n";
+        } else {
+            echo "Update: venue urls do not match\n";
+        }
+        
+        echo "\n".$entity[$entity_id]->getAddress()->venue_telephone."\n";
+        
+        if($this->assertEqual($entity[$entity_id]->getAddress()->venue_telephone, 02837929678, t('To match Venue Geo Telephones'))) {
+            echo "Update: venue geo telephones match\n";
+        } else {
+            echo "Update: venue geo telephones do not match\n";
+        }
+    }
+}
+
+?>

@@ -1,0 +1,29 @@
+<?php
+
+function performance_type_entity__performance__front_page(&$vars) {
+    if ($vars['performer_tags'] == '')
+        $print_tags = taxonomy_term_title(taxonomy_term_load($vars['element']['#entity']->getPerformanceType()));
+    
+    $vars['attributes_array']['title'] = $vars['attributes_array']['data-original-title'] = $vars['performer_node']->title . ', ' . $print_tags;
+}
+
+function performance_type_node__artistes__full(&$vars) {
+    $performance_types = $vars['performer_node']->getPerformanceTypes();
+    $items_array = array();
+    if(!empty($performance_types)) {
+        foreach(array_keys($performance_types) as $type) {
+            $items_array[] = array(
+                'content' => $type
+            );
+        }
+        $vars['performance_type'] = theme('list_item_view', array(
+            'li_class' => 'act-tag pull-left read-more',
+            'ul_class' => 'act-tags',
+            'li_separator' => '<li class="pull-left"> | </li>',
+            'items' => $items_array
+        ));
+    }
+    
+}
+
+?>

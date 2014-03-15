@@ -1,0 +1,68 @@
+<?php 
+
+class DannysComedyClubWebTestCase extends DrupalWebTestCase {
+    
+    private $show_node;
+    private $artiste_node;
+    protected $privileged_user;
+    
+    protected $setup = TRUE;
+    
+    public static function getInfo() {
+        return array(
+            'name' => 'DannysComedyClub Nodes Test Case',
+            'description' => 'Verifies operation of a performances node.',
+            'group' => 'The Club',
+        );
+    }
+    
+    public function setUp() {
+        parent::setUp('system', 'user', 'menu', 'node', 'field', 'field_ui', 'taxonomy', 'image', 'dannyscomedyclub');
+        $this->createPerformanceNode();
+    }
+    
+    public function testCreateShowNode() {
+        $title = $this->randomName(8);
+        $test_caption = 'Show Caption Test';
+        $this->show_node = $this->drupalCreateNode(array(
+            'title' => $title,
+            'type' => 'shows',
+            'status' => 1
+        ));
+        $test_node = node_load($this->show_node->nid);
+        $this->assertEqual($test_node->title, $this->show_node->title, t('The titles match'));
+        $this->createArtisteNode();
+    }
+    
+    public function createArtisteNode() {
+        $title = $this->randomName(8);
+        $this->artiste_node = $this->drupalCreateNode(array(
+            'title' => $title,
+            'type' => 'artistes',
+            'status' => 1,
+        ));
+        $test_node = node_load($this->artiste_node->nid);
+        $this->assertEqual($test_node->title, $title, t('The titles match'));
+    }
+    
+    public function createPerformanceNode() {
+        $title = $this->randomName(8);
+        $node = $this->drupalCreateNode(array(
+            'title' => $title,
+            'type' => 'performances',
+            'status' => 1,
+            'show_nid' => $this->show_node->nid,
+            'performer_nid' => $this->artiste_node->nid,
+            'order_p' => 23
+        ));
+        $test_node = node_load($node->nid);
+        
+        $this->assertEqual($test_node->title, $title, t('The titles match'));
+        $this->assertEqual($node->show_nid, $test_node->show_nid, t('The show nids match'));
+        $this->assertEqual($node->performer_nid, $test_node->performer_nid, t('The performer nids match'));
+        $this->assertEqual($node->order_p, $test_node->order_p, t('The performance order match'));
+    }
+    
+}
+
+?>

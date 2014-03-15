@@ -1,0 +1,56 @@
+<?php 
+
+include_once __DIR__ . '/includes/entity/event/entity.info.inc';
+include_once __DIR__ . '/includes/form/performance.entity.form.inc';
+include_once __DIR__ . '/includes/form/performances.node.form.inc';
+include_once __DIR__ . '/includes/form/show.entity.form.inc';
+include_once __DIR__ . '/includes/form/shows.node.form.inc';
+include_once __DIR__ . '/includes/menu/menu.default.inc';
+include_once __DIR__ . '/includes/node/node.info.inc';
+include_once __DIR__ . '/includes/node/performances.node.crud.inc';
+include_once __DIR__ . '/includes/node/shows.node.crud.inc';
+include_once __DIR__ . '/includes/views/event.views.inc';
+include_once __DIR__ . '/includes/views/event.preprocess.inc';
+
+function event_add_event_bundles($form, $form_state, $promo_event = NULL, $event_bundle = NULL) {
+    $event_bundle = is_null($event_bundle) ? $form_state['values']['ajax_event_bundle'] : $event_bundle;
+    
+    $event_options = event_set_event_bundles($event_bundle);
+    
+    $form['promo']['event_image_event_id'] = array(
+        '#type' => 'select',
+        '#title' => t('Event of the Image'),
+        '#description' => t('Select the event during which the promotional image is taken'),
+        '#options' => $event_options,
+        '#empty_value' => '',
+        '#empty_option' => 'None Selected',
+        '#needs_validation' => NULL,
+        '#validated' => TRUE,
+        '#attributes' => array('name' => 'event_image_event_id')
+    );
+    
+    if(!is_null($promo_event)) {
+        $form['promo']['event_image_event_id']['#default_value'] = $promo_event;
+    }
+    
+    $form_state['rebuild'] = TRUE;
+    
+    return $form['promo']['event_image_event_id'];
+}
+
+function event_set_event_bundles($event_bundle) {
+    $event_options = array();
+    if(!empty($event_bundle)) {
+        $entities = entity_load('event', FALSE, array(
+            'event_bundle' => $event_bundle
+        ));
+        if(!empty($entities)) {
+            foreach($entities as $entity) {
+                $event_options[$entity->getEvent()] = entity_label($event_bundle, $entity);
+            }
+        }
+    }
+    return $event_options;
+}
+
+?>

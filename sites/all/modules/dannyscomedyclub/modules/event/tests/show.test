@@ -1,0 +1,144 @@
+<?php
+
+class ShowWebTestCase extends DrupalWebTestCase {
+    private $venue_id;
+    private $node;
+    private $save_array = array(
+        'event_name' => 'Event Name',
+        'image_caption' => 'Caption',
+        'event_url' => 'http://www.gogole.com/?a=hjbk&bdh=37#647348-678!_8',
+        'event_image_event_id' => NULL,
+        'event_bundle' => 'show'
+    );
+    
+    public function __construct($test_id, $venue_id) {
+        parent::__construct($test_id);
+        $this->venue_id = $venue_id;
+    }
+    
+    public function getNode() {
+        return $this->node;
+    }
+    
+    public static function getInfo() {
+        return array(
+            'name' => 'DannysComedyClub Show Node Test Case',
+            'description' => 'Verifies operation of show node',
+            'group' => 'The Club',
+        );
+    }
+    
+    public function setUp() {
+        parent::setUp('field', 'system', 'node', 'entity', 'entityfunctionality', 'dannyscomedyclub', 'event', 'venue', 'show');
+    }
+    
+    public function testCreateShowNode() {
+        $this->createShowNode();
+    }
+    
+    public function createShowNode() {
+        $vocab = (object) array(
+            'name' => 'Event Status',
+            'machine_name' => 'event_status'
+        );
+        taxonomy_vocabulary_save($vocab);
+        echo "Vocab Saved\n";
+        $term = (object) array(
+            'vid' => $vocab->vid,
+            'name' => $this->randomName(8)
+        );
+        taxonomy_term_save($term);
+        echo "Term Saved\n";
+        $file = new stdClass();
+        $file->uri = DRUPAL_ROOT . base_path() . 'sites/default/files/performances-poster-image/Michael-Mooney.jpg';
+        $file->status = 1;
+        $file->filename = 'Michael-Mooney.jpg';
+        $file->filemime = 'image/jpeg';
+
+        $file = file_save($file);
+
+        echo "File = $file->fid, term = $term->tid";
+        $this->node = $this->drupalCreateNode(array(
+            'entity_taxonomy_event_status_id' => $term->tid,
+            'event_image_file_id' => $file->fid,
+            'entity_node_venue_id' => !is_null($this->venue_id) ? $this->venue_id : NULL,
+            'title' => $this->randomName(8),
+            'type' => 'shows'
+        ) + $this->save_array);
+
+        $entities = entity_get_controller('show')->readEntitiesFromBundleNode($this->node->nid);
+        $entity_id = key($entities);
+        
+        $entities[$entity_id]->getParentEntity()->getImage();
+        
+        if($this->assertEqual($entities[$entity_id]->getBundle(), $this->node->nid, t('To match Show Node IDs'))) {
+            echo "show node ids match\n";
+        } else {
+            echo "show node ids do not match\n";
+        }
+        if(!is_null($this->venue_id) && $this->assertEqual($entities[$entity_id]->getVenue(), $this->venue_id, t('To match Venue IDs'))) {
+            echo "venue ids match\n";
+        } else {
+            echo "venue ids do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getParentEntity()->getEventImage(), $file->fid, t('To match Image File IDs'))) {
+            echo "show image file ids match\n";
+        } else {
+            echo "show image file ids do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getParentEntity()->getUrl(), 'http://www.gogole.com/?a=hjbk&bdh=37#647348-678!_8', t('To match Show Event URLs'))) {
+            echo "show event urls match\n";
+        } else {
+            echo "show event urls do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getParentEntity()->getName(), 'Event Name', t('To match Show Event Names'))) {
+            echo "show event names match\n";
+        } else {
+            echo "show event names do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getParentEntity()->getImageCaption(), 'Caption', t('To match Show Image Captions'))) {
+            echo "show image captions match\n";
+        } else {
+            echo "show image captions do not match\n";
+        }
+        if($this->assertEqual($entities[$entity_id]->getParentEntity()->getEventStatus(), $term->tid, t('To match Show Event Statuses'))) {
+            echo "show event statuses match\n";
+        } else {
+            echo "show event statuses do not match\n";
+        }
+    }
+    
+    public function updateShowNode() {
+        
+    }
+    
+}
+
+class ShowTestSuite extends DrupalWebTestCase {
+    public static $venue_id;
+    
+    public static function getInfo() {
+        return array(
+            'name' => 'DannysComedyClub Show Test Suite',
+            'description' => 'Tests show test cases and Venue Test Case',
+            'group' => 'The Club',
+        );
+    }
+    
+    public function setUp() {
+        parent::setUp('field', 'system', 'node', 'entity', 'entityfunctionality', 'dannyscomedyclub', 'event', 'venue', 'show');
+    }
+    
+    public function testShowOperation() {
+        $venue_test_case = new VenueWebTestCase($this->testId);
+        
+        $venue_test_case->createVenueNode();
+        $venue_node = $venue_test_case->getNode();
+        
+        $venue_id = $venue_node->nid;
+        $show_test_case = new ShowWebTestCase($this->testId, $venue_id);
+        $show_test_case->createShowNode();
+    }
+}
+
+?>

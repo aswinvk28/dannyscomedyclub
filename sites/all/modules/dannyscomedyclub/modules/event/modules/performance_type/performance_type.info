@@ -1,0 +1,14 @@
+name = DannysComedyClub Performance Type Module
+description = "Performance Types of the performance"
+package = DannysComedyClub Club Events
+
+dependencies[] = dannyscomedyclub
+dependencies[] = event
+dependencies[] = entity
+dependencies[] = entityfunctionality
+
+files[] = includes/views/performances_types.views.inc
+
+version = "7.21"
+core = "7.x"
+project = "performance_type"
