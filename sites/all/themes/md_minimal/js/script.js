@@ -356,10 +356,10 @@ if(!!window.Backbone) {
         var LoadingView = Backbone.View.extend({
             tagName: 'div',
             className: 'modal-backdrop',
-            imageSrc: '/sites/all/themes/md_minimal/images/ajax-load/image_605323.gif',
+            imageSrc: '/sites/all/themes/md_minimal/images/ajax-load/108.gif',
             initialize: function() {
                 var view = this;
-                $(this.el).html('<div style="width:100%;height:100%" class="align-center"><span style="position:relative;top:50%;margin-top:-200px;color:white">Loading... <br /><img src="' + view.imageSrc + '"/></span></div>');
+                $(this.el).html('<div style="width:100%;height:100%" class="align-center"><span style="position:relative;top:50%;margin-top:-200px;color:white"><img src="' + view.imageSrc + '"/></span></div>');
             }
         });
         
