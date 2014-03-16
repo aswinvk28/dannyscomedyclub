@@ -356,7 +356,7 @@ if(!!window.Backbone) {
         var LoadingView = Backbone.View.extend({
             tagName: 'div',
             className: 'modal-backdrop',
-            imageSrc: '/sites/all/themes/md_minimal/images/ajax-load/108.gif',
+            imageSrc: '/sites/all/themes/md_minimal/images/ajax-load/109.gif',
             initialize: function() {
                 var view = this;
                 $(this.el).html('<div style="width:100%;height:100%" class="align-center"><span style="position:relative;top:50%;margin-top:-200px;color:white"><img src="' + view.imageSrc + '"/></span></div>');
@@ -508,13 +508,35 @@ if(!!window.Backbone) {
         });
 
         var Domain = new AppRouter();
-        Backbone.history.start();
+        if(!!window.history) {
+            Backbone.history.start({
+                pushState: true,
+                hashChange: false
+            });
+            $('#paginator_next a, #paginator_previous a').click(function(event) {
+                event.preventDefault();
+                if($(this).attr('href') !== '#') {
+                    window.history.pushState({}, "Title", "/artistes" + $(this).attr('href').replace('#', ''));
+                    Domain.listPageResults($(this).attr('href').replace('#/!/page/', ''));
+                    return false;
+                }
+            });
+            $('#paginator_select').change(function(event) {
+                window.history.pushState({}, "Title", "/artistes/!/page/" + $(this).val());
+                Domain.listPageResults($(this).val());
+                event.preventDefault();
+            });
+        } else {
+            Backbone.history.start({
+                pushState: true
+            });
+            $('#paginator_select').change(function(event) {
+                window.location.replace("/#!/page/" + $(this).val());
+                Domain.listPageResults($(this).val());
+                event.preventDefault();
+            });
+        }
 
-        $('#paginator_select').change(function(event) {
-            Domain.listPageResults($(this).val());
-            event.preventDefault();
-        });
-        
     })(window.jQuery, window.Backbone ? window.Backbone : undefined);
     
 }
