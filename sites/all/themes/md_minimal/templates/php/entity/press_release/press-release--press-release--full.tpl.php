@@ -54,7 +54,7 @@
     </div>
     <?php } ?>
     
-    <div class="clearfix column">
+    <div class="clearfix column bg-gray padding-20">
         <span class="white">Press Release:</span>
         <div class="clearfix column_small white">
         <?php print $press_release['description']; ?>

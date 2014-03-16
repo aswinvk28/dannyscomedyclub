@@ -56,7 +56,7 @@
     </div>
     <?php } ?>
     
-    <div class="clearfix column">
+    <div class="clearfix column bg-gray padding-20">
         <span class="white">Review:</span>
         <div class="clearfix column_small white" itemprop="reviewBody">
         <?php print $review['description']; ?>
