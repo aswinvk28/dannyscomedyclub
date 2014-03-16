@@ -163,6 +163,11 @@ class DannysComedyClubRoute {
         drupal_add_css('sites/default/packages/jQuery.jPlayer.2.4.0/jPlayer.Blue.Monday.2.4.0/blue.monday/jplayer.blue.monday.css', array('group' => CSS_THEME, 'every_page' => TRUE, 'scope' => 'header'));
     }
     
+    public function html_render_variables__artistes(&$vars) {
+        drupal_add_js('sites/default/packages/backbone/underscore-min.js', array('group' => JS_LIBRARY, 'every_page' => FALSE, 'scope' => 'footer', 'weight' => 2));
+        drupal_add_js('sites/default/packages/backbone/backbone-min.js', array('group' => JS_LIBRARY, 'every_page' => FALSE, 'scope' => 'footer', 'weight' => 3));
+    }
+
     public function html_render_variables__venue(&$vars) {
         $vars['head_title_array']['title'] = 'Venue';
     }
@@ -174,8 +179,6 @@ class DannysComedyClubRoute {
     }
     
     public function content_render_variables__artistes(&$vars) {
-        drupal_add_js('sites/default/packages/backbone/underscore-min.js', array('group' => JS_LIBRARY, 'every_page' => FALSE, 'scope' => 'footer', 'weight' => 2));
-        drupal_add_js('sites/default/packages/backbone/backbone-min.js', array('group' => JS_LIBRARY, 'every_page' => FALSE, 'scope' => 'footer', 'weight' => 3));
         $request_page = isset($_REQUEST['page']) ? (int) $_REQUEST['page'] : !empty($vars['page_number']) ? $vars['page_number'] : 1;
         if(empty($request_page) || $request_page < 0) return;
         $page = $request_page;
