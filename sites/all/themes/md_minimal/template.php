@@ -301,13 +301,14 @@ class DannysComedyClubRoute {
                         $vars['reviews'] = theme_render_template(path_to_theme().'/templates/php/block/block--sidebar--review.tpl.php', $block_vars);
                         unset($block_vars);
                     }
-                    
-                    $show_press_releases = $blocks['sidebar']['ndreference_press_release'];
-                    if(!empty($show_press_releases)) {
-                        $block_vars = array();
-                        DannysComedyClubRouteFactory::getRouteInstance()->block__sidebar__press_release($block_vars);
-                        $vars['press_releases'] = theme_render_template(path_to_theme().'/templates/php/block/block--sidebar--review.tpl.php', $block_vars);
-                    }
+                }
+            }
+            if(module_exists('ndreference')) {
+                $show_press_releases = $blocks['sidebar']['ndreference_press_release'];
+                if(!empty($show_press_releases)) {
+                    $block_vars = array();
+                    DannysComedyClubRouteFactory::getRouteInstance()->block__sidebar__press_release($block_vars);
+                    $vars['press_releases'] = theme_render_template(path_to_theme().'/templates/php/block/block--sidebar--review.tpl.php', $block_vars);
                 }
             }
         }
