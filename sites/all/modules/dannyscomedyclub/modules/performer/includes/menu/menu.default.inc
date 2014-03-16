@@ -15,11 +15,11 @@ function performer_menu() {
         'weight' => -10
     );
     
-    $items['artistes/page/%'] = array(
+    $items['artistes/!/page/%'] = array(
         'title' => 'Artistes',
         'page callback' => 'dannyscomedyclub_display_content',
-        'page arguments' => array(0, 1, 2),
-        'load arguments' => array(0, 1, 2),
+        'page arguments' => array(0, 2, 3),
+        'load arguments' => array(0, 2, 3),
         'file' => 'dannyscomedyclub.pages.inc',
         'file path' => drupal_get_path('module', 'dannyscomedyclub'),
         'access arguments' => array('access content'),
