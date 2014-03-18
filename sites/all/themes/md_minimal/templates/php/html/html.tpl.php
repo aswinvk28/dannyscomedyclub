@@ -17,8 +17,8 @@
 <![endif]-->
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes; ?>>
-    <div class="absolute-image page_wrapper hidden-phone"></div>
-    <div class="absolute-image page_container hidden-phone"></div>
+    <div class="fixed-image page_wrapper hidden-phone"></div>
+    <div class="fixed-image page_container hidden-phone"></div>
     <?php print $page_top; ?>
     <?php print $page; ?>
     <?php print $page_bottom; ?>
