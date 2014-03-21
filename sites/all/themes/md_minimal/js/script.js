@@ -312,35 +312,68 @@ function superSimpleTabsUpdateHash (hash) {
     
     GLOBAL.masonry = function(length) {
         var elements = []; this.length = length; var obj = this, current_last = false;
-        var iterator = function(index, element) {
+        this.iterator = function(index, element) {
             elements.push(element);
             current_last = ( (( index + 1 ) % obj.length) === 0 );
-            if( index === 0 ) {
-                obj.count = $(element).siblings().not('.row-fluid.decolumn_mini').length + 1;
-            }
             if( current_last || (!current_last && (( index + 1 ) === obj.count)) || (!current_last && (obj.count < obj.length)) ) {
-                $(elements).wrapAll('<div class="row-fluid decolumn_mini"/>');
+                $(elements).wrapAll('<div class="controls-row clearfix decolumn_mini"/>');
                 elements = [];
             }
         };
-        var setLength = function(length) {
+        this.setLength = function(length) {
             obj.length = length;
         };
-        this.iterator = iterator;
-        this.setLength = setLength;
+        this.setCount = function(count) {
+            obj.count = count;
+        };
     };
     
     if($('#artistes-masonry').length > 0 || $('.performances-masonry').length > 0 || $('.performance-clips-masonry').length > 0 || $('.performers-masonry').length > 0) {
     	masonry = new GLOBAL.masonry(4);
-    	$('#artistes-masonry > .span3').each(masonry.iterator);
-    	$('.performances-masonry > .span3').each(masonry.iterator);
-        $('.performers-masonry > .span3').each(masonry.iterator);
-        $('.performance-clips-masonry > .span3').each(masonry.iterator);
-        $('.show-highlights-masonry > .span3').each(masonry.iterator);
-        masonry.setLength(6);
-        $('.performers-masonry > .span2').each(masonry.iterator);
-        masonry.setLength(2);
-        $('.performers-masonry > .span6').each(masonry.iterator);
+        masonry.setLength(4);
+        
+        if($('#artistes-masonry > .span3').length > 4) {
+            masonry.setCount($('#artistes-masonry').children().length);
+            $('#artistes-masonry > .span3').each(masonry.iterator);
+        }
+        
+        if($('.performances-masonry > .span3').length > 4) {
+            masonry.setCount($('.performances-masonry').children().length);
+            $('.performances-masonry > .span3').each(masonry.iterator);
+        }
+        
+        if($('.performance-clips-masonry > .span3').length > 4) {
+            masonry.setCount($('.performance-clips-masonry').children().length);
+            $('.performance-clips-masonry > .span3').each(masonry.iterator);
+        }
+        
+        if($('.show-highlights-masonry > .span3').length > 4) {
+            masonry.setCount($('.show-highlights-masonry').children().length);
+            $('.show-highlights-masonry > .span3').each(masonry.iterator);
+        }
+        
+        if($('.performers-masonry > .span3').length > 4) {
+            masonry.setCount($('.performers-masonry').children().length);
+            $('.performers-masonry > .span3').each(masonry.iterator);
+        }
+        
+        if($('.performers-masonry > .span3').length > 4) {
+            masonry.setCount($('.performers-masonry').children().length);
+            $('.performers-masonry > .span3').each(masonry.iterator);
+        }
+        
+        if($('.performers-masonry > .span2').length > 6) {
+            masonry.setLength(6);
+            masonry.setCount($('.performers-masonry').children().length);
+            $('.performers-masonry > .span2').each(masonry.iterator);
+        }
+        
+        if($('.performers-masonry > .span6').length > 2) {
+            masonry.setLength(2);
+            masonry.setCount($('.performers-masonry').children().length);
+            $('.performers-masonry > .span6').each(masonry.iterator);
+        }
+        
     }
     
 })(jQuery);
