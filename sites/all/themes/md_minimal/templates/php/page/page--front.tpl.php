@@ -85,7 +85,10 @@
       <?php endif; ?>
 
   	<div class="clearfix decolumn_mini">  
-	  <div class="row-fluid">
+          <div class="alert alert-info">
+              <p><?php print drupal_render($page['notice']); ?></p>
+          </div>
+          <div class="row-fluid">
               <div id="main" class="<?php echo $content_classes; ?>">
                 <?php print $accordion; ?>
               </div>

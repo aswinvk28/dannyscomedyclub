@@ -17,8 +17,6 @@ $finished_shows = array_filter($rest_shows, function($entity) {
     return taxonomy_term_load($entity->getParentEntity()->getEventStatus())->name == 'Finished';
 });
 
-print drupal_render($vars['page']['notice']);
-
 $context_shows = array_merge($upcoming_shows, $finished_shows, array_diff_key($rest_shows, $finished_shows));
 
 if( !empty( $context_shows ) ) { ?>
