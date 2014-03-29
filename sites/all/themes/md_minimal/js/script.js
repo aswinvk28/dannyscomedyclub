@@ -564,9 +564,14 @@ if(!!window.Backbone) {
                 pushState: true
             });
             $('#paginator_select').change(function(event) {
-                window.location.replace("/#!/page/" + $(this).val());
+                window.location.replace("/artistes/!/page/" + $(this).val());
                 Domain.listPageResults($(this).val());
                 event.preventDefault();
+            });
+            $('#paginator_next a, #paginator_previous a').click(function(event) {
+                event.preventDefault();
+                window.location.replace("/artistes/!/page/" + $(this).attr('href').replace('#', ''));
+                Domain.listPageResults($(this).attr('href').replace('#/!/page/', ''));
             });
         }
 
