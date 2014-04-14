@@ -541,7 +541,7 @@ if(!!window.Backbone) {
         });
 
         var Domain = new AppRouter();
-        if(!!window.history) {
+        if(window.history) {
             Backbone.history.start({
                 pushState: true,
                 hashChange: false
@@ -560,18 +560,11 @@ if(!!window.Backbone) {
                 event.preventDefault();
             });
         } else {
-            Backbone.history.start({
-                pushState: true
-            });
             $('#paginator_select').change(function(event) {
                 window.location.replace("/artistes/!/page/" + $(this).val());
-                Domain.listPageResults($(this).val());
-                event.preventDefault();
             });
             $('#paginator_next a, #paginator_previous a').click(function(event) {
-                event.preventDefault();
                 window.location.replace("/artistes/!/page/" + $(this).attr('href').replace('#', ''));
-                Domain.listPageResults($(this).attr('href').replace('#/!/page/', ''));
             });
         }
 

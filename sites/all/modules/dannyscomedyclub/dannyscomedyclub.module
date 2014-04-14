@@ -111,7 +111,7 @@ function theme_list_item_view($vars) {
         foreach($vars['items'] as $item) {
             $li_array[] = '<li class="' . $vars['li_class'] . '">' . $item['content'] . '</li>';
         }
-        $output .= implode($li_separator, $li_array);
+        $output .= implode($li_separator, $li_array).'</ul>';
     }
     return $output;
 }
