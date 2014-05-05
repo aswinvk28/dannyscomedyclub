@@ -85,8 +85,8 @@
       <?php endif; ?>
 
   	<div class="clearfix decolumn_mini">  
-          <?php if(empty($page['notice'])) { ?>
-          <div class="alert alert-info">
+          <?php if(!empty($page['notice'])) { ?>
+          <div class="alert alert-success">
               <p><?php print drupal_render($page['notice']); ?></p>
           </div>
           <?php } ?>

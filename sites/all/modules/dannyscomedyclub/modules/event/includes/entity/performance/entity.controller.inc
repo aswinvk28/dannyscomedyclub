@@ -9,7 +9,7 @@ class PerformanceController extends BundleNodeEntityCRUD implements BundleNodeEn
             if(($node_conditions['node.status'] == 0 || $node_conditions['node.status'] == 1)) {
                 $query->innerJoin('node', 'n', 'n.nid='.$this->entity_alias.'.entity_node_bundle_id');
                 $query->condition('n.status', $node_conditions['node.status']);
-                $query->orderBy($this->entity_alias.'.performance_order', 'DESC');
+                $query->orderBy($this->entity_alias.'.performance_order', 'ASC');
             }
             unset($node_conditions['node.status']);
         }
