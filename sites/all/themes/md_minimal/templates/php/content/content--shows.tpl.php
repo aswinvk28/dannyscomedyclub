@@ -23,7 +23,7 @@
             <h4>Admission</h4>
         </div>
         <div>
-            <p>The Box Office can be found at the entrance to the Club, just to the right of the entrance lobby. Admission is <span class="white flarge">£7.00</span> per person (concessions £5.00), payable at the door on the night. </p>
+            <p>The Box Office can be found at the entrance to the Club, just to the right of the entrance lobby. Admission is <span class="white flarge">£7.00</span> per person, payable at the door on the night. </p>
             <p><span class="white flarge">Advanced Tickets</span> are also available from the Hotel Reception at any time.</p>
             <p><i>We regret that we do not give refunds after <span class="white flarge">9.00 pm.</span></i></p>
         </div>

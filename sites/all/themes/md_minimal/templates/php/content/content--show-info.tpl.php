@@ -19,7 +19,7 @@
     <div class="column_normal row-fluid">
         <img src="<?php echo base_path() . path_to_theme(); ?>/images/icons/price/1360372090_currency_pound green.png" class="span2" alt="Pound Icon" title="Price for the Show" />
         <div class="span10 spaced_description">
-            <p>The Box Office can be found at the entrance to the Club, just to the right of the entrance lobby. Admission is <span class="white fx-large">£7.00</span> per person (concessions £5.00), payable at the door on the night. </p>
+            <p>The Box Office can be found at the entrance to the Club, just to the right of the entrance lobby. Admission is <span class="white fx-large">£7.00</span> per person, payable at the door on the night. </p>
             <p><span class="white fx-large">Advanced Tickets</span> are also available from the Hotel Reception at any time.</p>
             <p><i>We regret that we do not give refunds after <span class="white fx-large">9.00 pm.</span></i></p>
         </div>
