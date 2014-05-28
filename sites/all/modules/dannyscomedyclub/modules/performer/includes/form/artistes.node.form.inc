@@ -16,7 +16,7 @@ function artistes_content_validate($node) {
         form_set_error('performer_email', 'Enter Valid Email Address');
     }
     
-    if(!empty($node->performer_fb) && !preg_match('/^http[s]?:\/\/(www|[a-zA-Z]{2}-[a-zA-Z]{2})\.facebook\.com\/(pages\/[a-zA-Z0-9\.-]+\/[0-9]+|[a-zA-Z0-9\.-]+)[\/]?$/', $node->performer_fb)) {
+    if(!empty($node->performer_fb) && !preg_match('/^http[s]?:\/\/(www|[a-zA-Z]{2}-[a-zA-Z]{2})\.facebook\.com\/([a-z]+\/[a-zA-Z0-9\.-]+(\/[0-9]+|[a-zA-Z0-9\.-]+)?)[\/]?$/', $node->performer_fb)) {
         form_set_error('performer_fb', 'Enter Valid FB Page');
     }
     

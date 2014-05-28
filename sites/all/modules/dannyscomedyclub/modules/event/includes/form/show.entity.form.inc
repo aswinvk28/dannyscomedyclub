@@ -15,14 +15,14 @@ function show_form($form, $form_state, $entity, $op) {
 function show_form_validate($form, $form_state) {
     $object = (object) EventEntityWrapper::data($form_state['values']);
     shows_content_validate($object);
-    $date_format = FALSE;
-    if(is_string($form_state['values']['field_date'])) {
-        $date = new DateTime($form_state['values']['field_date']);
-        $date_format = $date->format('Y-m-d H:i:s');
-    }
-    if(!$date_format) {
-        form_set_error('field_date', t('Select Valid Date'));
-    }
+//    $date_format = FALSE;
+//    if(is_string($form_state['values']['field_date'])) {
+//        $date = new DateTime($form_state['values']['field_date']);
+//        $date_format = $date->format('Y-m-d H:i:s');
+//    }
+//    if(!$date_format) {
+//        form_set_error('field_date', t('Select Valid Date'));
+//    }
 }
 
 function show_form_submit(&$form, $form_state) {

@@ -77,7 +77,7 @@ class PerformerNodeView extends CoreNodeView implements CoreNodeViewInterface {
             $performances = $this->getEntity()->getPublishedPerformances();
             $perf_array = array();
             foreach($performances as $performance) {
-                $perf_array += $performance->getPerformanceype();
+                $perf_array += $performance->getPerformanceType();
             }
             if(!empty($perf_array)) {
                 $query = db_select('taxonomy_term_data', 'ttd')->fields('ttd', array('name'))->distinct()->condition('ttd.tid', $perf_array, 'IN');
