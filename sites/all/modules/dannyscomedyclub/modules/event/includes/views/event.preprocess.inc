@@ -15,13 +15,21 @@ function performance_performance__performance__front_page(&$vars) {
     $vars['performer']['title'] = entity_label('performer', $performance_entity->getPerformerEntity());
 
     $tags = field_get_items('node', $performer_node, 'field_performer_tags');
-    $print_tags = '';
+    $print_tags = array();
     if (!empty($tags)):
         foreach ($tags as $tag) {
-            $print_tags .= taxonomy_term_title(taxonomy_term_load($tag['tid']));
+            $print_tags['tag_' . $tag['tid']] = array(
+                '#type' => 'html_tag',
+                '#value' => taxonomy_term_title(taxonomy_term_load($tag['tid'])),
+                '#tag' => 'div',
+                '#attributes' => array(
+                    'class' => 'clearfix'
+                )
+            );
+            if(count($print_tags) == 3) break;
         }
     endif;
-    $vars['performer_tags'] = $print_tags;
+    $vars['performer_tags'] = drupal_render($print_tags);
 
     if(module_exists('performance_type')) {
         $hook = str_replace('event_', '', __FUNCTION__);
