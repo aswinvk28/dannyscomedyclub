@@ -3,7 +3,6 @@
 require_once DRUPAL_ROOT . base_path() . 'sites/default/common/dannyscomedyclub.inc';
 require_once DRUPAL_ROOT . base_path() . 'sites/default/common/functions.inc';
 require_once DRUPAL_ROOT . base_path() . path_to_theme() . '/utilities.inc';
-require_once DRUPAL_ROOT . base_path() . path_to_theme() . '/theme_settings.inc';
 
 class DannysComedyClubRoute {
 
@@ -786,19 +785,21 @@ function md_minimal_preprocess_page(&$vars, $hook) {
         'node.status' => 1
     ));
     if(!empty($venues)) {
-        $vars['header_sidebar'] = '';
-        foreach($venues as $key => $venue) {
-            $venue_uri = entity_uri('venue', $venue);
-            $items = array(
-                'content' => '<a class="underline" href="'.url($venue_uri['path'], array('base_url' => TRUE)).'">'.entity_label('venue', $venue).'</a>'
-            );
-            $venue->getAddress();
-            $address = explode(',', $venue->getVenueAddress());
-            $vars['header_sidebar'] .= theme('list_item_view', array(
-                'ul_class' => 'unstyled',
-                'li_class' => '',
-                'items' => array($items)
-            )) . '<div class="column_mini">' . $venue->getVenueAddress() . '</div>';
+        $header_sidebar = theme_get_setting('header_sidebar');
+        if(!empty($header_sidebar)) {
+            foreach($venues as $key => $venue) {
+                $venue_uri = entity_uri('venue', $venue);
+                $items = array(
+                    'content' => '<a class="underline" href="'.url($venue_uri['path'], array('base_url' => TRUE)).'">'.entity_label('venue', $venue).'</a>'
+                );
+                $venue->getAddress();
+                $address = explode(',', $venue->getVenueAddress());
+                $vars['header_sidebar'] .= theme('list_item_view', array(
+                    'ul_class' => 'unstyled',
+                    'li_class' => '',
+                    'items' => array($items)
+                )) . '<div class="column_mini">' . $venue->getVenueAddress() . '</div>';
+            }
         }
     }
     $vars['follow_us'] = theme_get_setting('follow_us'); 
