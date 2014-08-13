@@ -44,7 +44,7 @@ function dannyscomedyclub_delivery_html($page_callback_result) {
 }
 
 function dannyscomedyclub_display_front_page() {
-    drupal_set_title(t("@site-name"."'s Shows", array('@site-name' => variable_get('site_name', 'Drupal'))), PASS_THROUGH);
+    drupal_set_title(t("Shows at @site-name"."", array('@site-name' => variable_get('site_name', 'Drupal'))), PASS_THROUGH);
 
     $build['default_message'] = array(
       '#markup' => '',

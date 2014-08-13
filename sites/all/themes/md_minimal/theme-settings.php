@@ -2,6 +2,12 @@
 // Form override fo theme settings
 function md_minimal_form_system_theme_settings_alter(&$form, $form_state) {
 
+  $form['theme_settings']['header_sidebar'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Header Sidebar'),
+      '#default_value' => theme_get_setting('header_sidebar')
+  );
+    
   $form['options_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Theme Specific Settings'),
@@ -16,13 +22,6 @@ function md_minimal_form_system_theme_settings_alter(&$form, $form_state) {
     '#default_value' => theme_get_setting('clear_registry'),
   );
   
-  $form['options_settings']['header_sidebar'] = array(
-    '#type'          => 'textarea',
-    '#title'         => t('Header Sidebar'),
-    '#description'   => t('Enter the HTML value of the Header Sidebar which will be displayed in the right side of the theme'),
-    '#default_value' => theme_get_setting('header_sidebar')
-  );
-	
   $form['options_settings']['md_minimal_analytics'] = array(
     '#type'          => 'textarea',
     '#title'         => t('Theme Analytics Code'),

@@ -2,7 +2,7 @@
 
 class EventController extends EntityCRUD {
     
-    protected function buildQuery($ids, $conditions = array()) {
+    protected function buildQuery($ids, $conditions = array(), $revision_id = FALSE) {
         $query = parent::buildQuery($ids, $conditions);
         $fields = & $query->getFields();
         unset($fields['event_image_file_id']);

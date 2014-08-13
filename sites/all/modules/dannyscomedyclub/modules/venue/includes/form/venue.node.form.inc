@@ -19,7 +19,7 @@ function venue_content_validate($node) {
         form_set_error('venue_location', t('Enter Valid Location for the venue'));
     }
     
-    if(!empty($node->venue_telephone) && !preg_match('/^[\d\s]{7,}$/', $node->venue_telephone)) {
+    if(!empty($node->venue_telephone) && !preg_match('/^[\d\s]*$/', $node->venue_telephone)) {
         form_set_error('venue_telephone', t('Enter Valid Telephone Number'));
     }
     
@@ -28,11 +28,11 @@ function venue_content_validate($node) {
             form_set_error('venue_url', 'Enter valid Venue URL');
     }
     
-    if(!empty($node->venue_geo_lat) && !preg_match('/^(-?(90|(\d|[1-8]\d)(\.\d{1,6}){0,1}))$/', $node->venue_geo_lat)) {
+    if(!empty($node->venue_geo_lat) && !preg_match('/^(-?(90|(\d|[1-8]\d)(\.\d{1,6})))$/', $node->venue_geo_lat)) {
         form_set_error('venue_geo_lat', t('Enter Valid Geo Latitude'));
     }
     
-    if(!empty($node->venue_geo_long) && !preg_match('/^(-?(180|(\d|\d\d|1[0-7]\d)(\.\d{1,6}){0,1}))$/', $node->venue_geo_long)) {
+    if(!empty($node->venue_geo_long) && !preg_match('/^(-?(180|(\d|\d\d|1[0-7]\d)(\.\d{1,6})))$/', $node->venue_geo_long)) {
         form_set_error('venue_geo_long', t('Enter Valid Geo Longitude'));
     }
 }

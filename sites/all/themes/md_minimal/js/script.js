@@ -541,7 +541,7 @@ if(!!window.Backbone) {
         });
 
         var Domain = new AppRouter();
-        if(window.history) {
+        if(!!window.history && _.isFunction(window.history.pushState)) {
             Backbone.history.start({
                 pushState: true,
                 hashChange: false
@@ -564,7 +564,7 @@ if(!!window.Backbone) {
                 window.location.replace("/artistes/!/page/" + $(this).val());
             });
             $('#paginator_next a, #paginator_previous a').click(function(event) {
-                window.location.replace("/artistes/!/page/" + $(this).attr('href').replace('#', ''));
+                window.location.replace("/artistes" + $(this).attr('href').replace('#', ''));
             });
         }
 

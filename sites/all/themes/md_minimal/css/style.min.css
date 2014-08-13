@@ -11,6 +11,9 @@
     top: 0;
     z-index: 1040;
 }
+a.text-success {
+  color: #468847;
+}
 .modal-backdrop.fade {
     opacity: 0;
 }
