@@ -743,6 +743,11 @@ if (theme_get_setting('clear_registry')) {
     drupal_theme_rebuild();
 }
 
+function md_minimal_js_alter(&$javascript) {
+    unset($javascript['misc/jquery.js']);
+    unset($javascript['misc/ui/jquery.ui.core.min.js']);
+}
+
 function md_minimal_preprocess_html(&$vars, $hook) {
     if(!$vars['is_admin']) {
         drupal_static_reset('drupal_add_css');
@@ -751,14 +756,14 @@ function md_minimal_preprocess_html(&$vars, $hook) {
     drupal_add_css('sites/default/packages/bootstrap/css/bootstrap.min.css', array('every_page' => TRUE, 'type' => 'file', 'scope' => 'header', 'weight' => -16));
     drupal_add_css('sites/default/packages/bootstrap/css/bootstrap-responsive.min.css', array('every_page' => TRUE, 'type' => 'file', 'scope' => 'header', 'weight' => -15));
     drupal_add_css(path_to_theme() . '/css/style.min.css', array('every_page' => TRUE, 'type' => 'file', 'scope' => 'header', 'weight' => -14));
-    drupal_add_js('sites/default/packages/jquery/jquery-1.8.2.min.js', array('group' => JS_LIBRARY, 'every_page' => TRUE, 'weight' => -30, 'scope' => 'footer'));
-    
+    drupal_add_js('http://code.jquery.com/jquery-1.5.2.min.js', array('group' => JS_LIBRARY, 'every_page' => TRUE, 'weight' => -30, 'scope' => 'footer'));
+//    drupal_add_js('http://code.jquery.com/jquery-migrate-1.2.1.min.js', array('group' => JS_LIBRARY, 'every_page' => TRUE, 'weight' => -29, 'scope' => 'footer'));
     if(!$vars['is_admin']) {
         $js = &drupal_static('drupal_add_js');
         if(!empty($js)):
         if(array_key_exists('misc/jquery.js', $js) && array_key_exists('misc/ui/jquery.ui.core.min.js', $js)):
         $js['misc/jquery.js'] = $js['misc/ui/jquery.ui.core.min.js'] = array(
-
+            
         );
         endif;
         endif;
@@ -787,6 +792,7 @@ function md_minimal_preprocess_page(&$vars, $hook) {
     if(!empty($venues)) {
         $header_sidebar = theme_get_setting('header_sidebar');
         if(!empty($header_sidebar)) {
+            $vars['header_sidebar'] = '';
             foreach($venues as $key => $venue) {
                 $venue_uri = entity_uri('venue', $venue);
                 $items = array(
@@ -810,6 +816,8 @@ function md_minimal_preprocess_page(&$vars, $hook) {
     $vars['content_classes_array'] = array();
     if (drupal_is_front_page()) {
         $vars['accordion'] = theme_render_template(path_to_theme() . '/layouts/shows-accordion.php', array());
+        DannysComedyClubDotCom::getArticles($vars);
+        $vars['top_placeholder_content'] = theme_render_template(path_to_theme() . '/layouts/tabs-front.php', array('result' => DannysComedyClubDotCom::getIntroArticles() ));
     }
 
     if (!empty($vars['page']['sidebar'])) {

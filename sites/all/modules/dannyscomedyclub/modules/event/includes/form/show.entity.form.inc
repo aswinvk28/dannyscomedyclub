@@ -49,24 +49,24 @@ function show_form_submit(&$form, $form_state) {
         );
     }
     $node['entity_node_venue_id'] = !empty($form_state['values']['entity_node_venue_id']) ? $form_state['values']['entity_node_venue_id'] : NULL;
-    
-    $date = new DateTime($form_state['values']['field_date']);
-    $date_format = $date->format('Y-m-d H:i:s');
-    
-    if($date_format) {
-        $node['field_date'] = array(
-            'und' => array(
-                0 => array(
-                    'value' => $date_format
-                )
-            )
-        );
-    }
+//    
+//    $date = new DateTime($form_state['values']['field_date']);
+//    $date_format = $date->format('Y-m-d H:i:s');
+//    
+//    if($date_format) {
+//        $node['field_date'] = array(
+//            'und' => array(
+//                0 => array(
+//                    'value' => $date_format
+//                )
+//            )
+//        );
+//    }
     $node += EventEntityWrapper::data($form_state['values']);
     
     $save_node = (object) $node;
     if(!node_save($save_node)) {
-        throw Exception(t('Node Not Saved'));
+        throw new Exception(t('Node Not Saved'));
     }
 }
 

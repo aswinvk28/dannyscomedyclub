@@ -197,187 +197,6 @@ function superSimpleTabsUpdateHash (hash) {
     });
 })(jQuery);
 
-(function ($) {
-
-    if( $.isFunction($.fn.superSimpleTabs) ) {
-        $tabs = $('.js_tabs');
-        $tabs.superSimpleTabs({ duration: 300, show: 'fadeIn', hide: 'fadeOut' });
-    }
-
-    if( $.isFunction($.fn.tooltip) ) {
-        $('.bootstrap_title').tooltip({
-            placement: 'bottom',
-            delay: { show: 200, hide: 100 },
-            trigger: 'hover'
-        });
-    }
-
-    if( $.browser.msie && !!window.PIE ) {
-        if( $.browser.version < 8 ) {
-            $('.box_shadow').each(function() {
-                PIE.attach(this);
-            });
-        }
-        if ( $.browser.version < 9 ) {
-            $('.border_radius_large, .border_radius, .border_radius_small, .stage-shows li .label, .js-pane, .js_tabs li').each(function() {
-                PIE.attach(this);
-            });
-        }
-    }
-
-    if( $('#map_container').length > 0 && !!google ) {
-        window.mapInitialize = function() {
-            var latlng = new google.maps.LatLng(new Number($('#map_lat').text()).valueOf(), new Number($('#map_long').text()).valueOf());
-            var mapOptions = {
-                center: latlng,
-                zoom: 16,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-
-            var map = new google.maps.Map(document.getElementById("map_container"), mapOptions);
-            new google.maps.Marker({
-                map: map,
-                position: mapOptions.center
-            });
-
-        };
-
-        google.maps.event.addDomListener(window, 'load', mapInitialize);
-    }
-
-
-    if($.isFunction($.fn.colorbox)) {
-        var colorbox = function() {};
-        colorbox.prototype.onYouTubeIframeAPIReady = function(element, width, height) {
-            object = document.createElement('object');
-            $(object).addClass('iframe_video').css({ 'display': 'block', 'width': width, 'height': height });
-            param = document.createElement('param');
-            $(param).attr('name', 'movie').attr('value', 'http://www.youtube.com/v/' + element.data('href') + '?version=3&autoplay=1&wmode=opaque');
-            embed = document.createElement('embed');
-            $(embed).attr('src', 'http://www.youtube.com/v/' + element.data('href') + '?version=3&autoplay=1&wmode=opaque').attr('type', "application/x-shockwave-flash").attr('allowscriptaccess', "always").css({ 'display': 'block', 'width': '100%', 'height': '100%' });
-            $(object).append(param).append(embed);
-            return object;
-        };
-        $('.colorbox-video').colorbox({
-            html: '<span>Content Loading...</span>',
-            speed: 100,
-            width: '938px',
-            height: '528px',
-            maxWidth: '100%',
-            maxHeight: '100%',
-            rel: 'video',
-            current: '<span>Video <span class="label label-info">{current}</span> of <span class="label label-info">{total}</span></span>. <span>Use arrow keys to navigate</span>',
-            onComplete: function () {
-                $('#cboxLoadedContent :first-child').hide();
-                $('#cboxLoadedContent').css('padding', '20px').append(colorbox.onYouTubeIframeAPIReady($(this), '892', '488'));
-            }
-        });
-        $('.colorbox-image').colorbox({
-            maxWidth: '100%',
-            maxHeight: '100%',
-            rel: 'image',
-            speed: 100,
-            current: '<span>Image <span class="label label-info">{current}</span> of <span class="label label-info">{total}</span></span>. <span>Use arrow keys to navigate</span>'
-        });
-        $('.page-video').click(function() {
-            $('#pageVideoIframe').append(colorbox.onYouTubeIframeAPIReady($(this), '100%', '432'));
-            $(this).hide();
-            return false;
-        });
-        colorbox = new colorbox();
-    }
-    
-    if($('#club-audio').length > 0) {
-        $('#club-audio').jPlayer({
-            swfPath: "/sites/default/packages/jQuery.jPlayer.2.4.0/jQuery.jPlayer.2.4.0/Jplayer.swf",
-            ready: function () {
-                $(this).jPlayer("setMedia", {
-                    mp3: "/sites/default/files/resources/Dannys_Comedy_Club_MERIFM.mp3"
-                });
-            }
-            
-        });
-    }
-    
-    $('.share-trigger').bind('click', function() {
-        var scripts = document.getElementsByTagName("script");
-        var newScript = document.createElement("script");
-        newScript.src = "http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-517427cf23e21205";
-        $(newScript).attr('type', 'text/javascript');
-        $(scripts[scripts.length - 1]).after(newScript);
-        $(this).unbind('click');
-        $('.share-links').show();
-        $(this).hide();
-    });
-    
-    GLOBAL.masonry = function(length) {
-        var elements = []; this.length = length; var obj = this, current_last = false;
-        this.iterator = function(index, element) {
-            elements.push(element);
-            current_last = ( (( index + 1 ) % obj.length) === 0 );
-            if( current_last || (!current_last && (( index + 1 ) === obj.count)) || (!current_last && (obj.count < obj.length)) ) {
-                $(elements).wrapAll('<div class="controls-row clearfix decolumn_mini"/>');
-                elements = [];
-            }
-        };
-        this.setLength = function(length) {
-            obj.length = length;
-        };
-        this.setCount = function(count) {
-            obj.count = count;
-        };
-    };
-    
-    if($('#artistes-masonry').length > 0 || $('.performances-masonry').length > 0 || $('.performance-clips-masonry').length > 0 || $('.performers-masonry').length > 0) {
-    	masonry = new GLOBAL.masonry(4);
-        masonry.setLength(4);
-        
-        if($('#artistes-masonry > .span3').length > 4) {
-            masonry.setCount($('#artistes-masonry').children().length);
-            $('#artistes-masonry > .span3').each(masonry.iterator);
-        }
-        
-        if($('.performances-masonry > .span3').length > 4) {
-            masonry.setCount($('.performances-masonry').children().length);
-            $('.performances-masonry > .span3').each(masonry.iterator);
-        }
-        
-        if($('.performance-clips-masonry > .span3').length > 4) {
-            masonry.setCount($('.performance-clips-masonry').children().length);
-            $('.performance-clips-masonry > .span3').each(masonry.iterator);
-        }
-        
-        if($('.show-highlights-masonry > .span3').length > 4) {
-            masonry.setCount($('.show-highlights-masonry').children().length);
-            $('.show-highlights-masonry > .span3').each(masonry.iterator);
-        }
-        
-        if($('.performers-masonry > .span3').length > 4) {
-            masonry.setCount($('.performers-masonry').children().length);
-            $('.performers-masonry > .span3').each(masonry.iterator);
-        }
-        
-        if($('.performers-masonry > .span3').length > 4) {
-            masonry.setCount($('.performers-masonry').children().length);
-            $('.performers-masonry > .span3').each(masonry.iterator);
-        }
-        
-        if($('.performers-masonry > .span2').length > 6) {
-            masonry.setLength(6);
-            masonry.setCount($('.performers-masonry').children().length);
-            $('.performers-masonry > .span2').each(masonry.iterator);
-        }
-        
-        if($('.performers-masonry > .span6').length > 2) {
-            masonry.setLength(2);
-            masonry.setCount($('.performers-masonry').children().length);
-            $('.performers-masonry > .span6').each(masonry.iterator);
-        }
-        
-    }
-    
-})(jQuery);
-
 var addthis_config = { "data_track_addressbar": true };
 
 /* Backbone Routing and Ajax */
@@ -421,7 +240,7 @@ if(!!window.Backbone) {
                         page: page,
                         page_count: page_count
                     });
-                    $('#paginator_description #paginator_page_number').text(page);
+                    $('#paginator_description #paginator_page_number').text(page.valueOf());
                     if(page <= page_count) {
                         if(page < page_count) {
                             $('#paginator_next a').attr('href', '#/!/page/' + (page + 1)).attr('class', 'active bootstrap_title');
@@ -436,8 +255,8 @@ if(!!window.Backbone) {
                     } else {
                         $('#paginator_next a').attr('href', '#').attr('class', 'disabled');
                     }
-                    if($('#paginator_select').val() != page) {
-                        $('#paginator_select').val(page);
+                    if($('#paginator_select').val() != page.valueOf()) {
+                        $('#paginator_select').val(page.valueOf());
                     }
                 }
             }
@@ -465,7 +284,9 @@ if(!!window.Backbone) {
                         var performersView = new PerformerPageListView({collection: data});
                         $('#page-list-items-ajax').html(performersView.el);
                         masonry = new GLOBAL.masonry(6);
-                        $('.performers-masonry > .span2').each(masonry.iterator);
+                        window.setTimeout(function() {
+                            masonry.execute('.performers-masonry', '.span2');
+                        }, 5);
                     },
                     error : function(xhr, textStatus, errorThrown) {
                         context.errorPage();
@@ -571,3 +392,240 @@ if(!!window.Backbone) {
     })(window.jQuery, window.Backbone ? window.Backbone : undefined);
     
 }
+
+(function($) {
+    
+    $(document).ready(function () {
+
+        if( $.isFunction($.fn.superSimpleTabs) ) {
+            $tabs = $('.js_tabs');
+            $tabs.superSimpleTabs({ duration: 300, show: 'fadeIn', hide: 'fadeOut' });
+        }
+
+        if( $.isFunction($.fn.tooltip) ) {
+            $('.bootstrap_title').tooltip({
+                placement: 'bottom',
+                delay: { show: 200, hide: 100 },
+                trigger: 'hover'
+            });
+        }
+
+        if( $.browser.msie && !!window.PIE ) {
+            if( $.browser.version < 8 ) {
+                $('.box_shadow').each(function() {
+                    PIE.attach(this);
+                });
+            }
+            if ( $.browser.version < 9 ) {
+                $('.border_radius_large, .border_radius, .border_radius_small, .stage-shows li .label, .js-pane, .js_tabs li').each(function() {
+                    PIE.attach(this);
+                });
+            }
+        }
+
+        if( $('#map_container').length > 0 && !!google ) {
+            window.mapInitialize = function() {
+                var latlng = new google.maps.LatLng(new Number($('#map_lat').text()).valueOf(), new Number($('#map_long').text()).valueOf());
+                var mapOptions = {
+                    center: latlng,
+                    zoom: 16,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+                var map = new google.maps.Map(document.getElementById("map_container"), mapOptions);
+                new google.maps.Marker({
+                    map: map,
+                    position: mapOptions.center
+                });
+
+            };
+
+            google.maps.event.addDomListener(window, 'load', mapInitialize);
+        }
+
+
+        if($.isFunction($.fn.colorbox)) {
+            var colorbox = function() {};
+            colorbox.prototype.onYouTubeIframeAPIReady = function(element, width, height) {
+                object = document.createElement('object');
+                $(object).addClass('iframe_video').css({ 'display': 'block', 'width': width, 'height': height });
+                param = document.createElement('param');
+                $(param).attr('name', 'movie').attr('value', 'http://www.youtube.com/v/' + element.data('href') + '?version=3&autoplay=1&wmode=opaque');
+                embed = document.createElement('embed');
+                $(embed).attr('src', 'http://www.youtube.com/v/' + element.data('href') + '?version=3&autoplay=1&wmode=opaque').attr('type', "application/x-shockwave-flash").attr('allowscriptaccess', "always").css({ 'display': 'block', 'width': '100%', 'height': '100%' });
+                $(object).append(param).append(embed);
+                return object;
+            };
+            $('.colorbox-video').colorbox({
+                html: '<span>Content Loading...</span>',
+                speed: 100,
+                width: '938px',
+                height: '528px',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                rel: 'video',
+                current: '<span>Video <span class="label label-info">{current}</span> of <span class="label label-info">{total}</span></span>. <span>Use arrow keys to navigate</span>',
+                onComplete: function () {
+                    $('#cboxLoadedContent :first-child').hide();
+                    $('#cboxLoadedContent').css('padding', '20px').append(colorbox.onYouTubeIframeAPIReady($(this), '892', '488'));
+                }
+            });
+            $('.colorbox-image').colorbox({
+                maxWidth: '100%',
+                maxHeight: '100%',
+                rel: 'image',
+                speed: 100,
+                current: '<span>Image <span class="label label-info">{current}</span> of <span class="label label-info">{total}</span></span>. <span>Use arrow keys to navigate</span>'
+            });
+            $('.page-video').click(function() {
+                $('#pageVideoIframe').append(colorbox.onYouTubeIframeAPIReady($(this), '100%', '432'));
+                $(this).hide();
+                return false;
+            });
+            colorbox = new colorbox();
+        }
+
+        if($('#club-audio').length > 0) {
+            $('#club-audio').jPlayer({
+                swfPath: "/sites/default/packages/jQuery.jPlayer.2.4.0/jQuery.jPlayer.2.4.0/Jplayer.swf",
+                ready: function () {
+                    $(this).jPlayer("setMedia", {
+                        mp3: "/sites/default/files/resources/Dannys_Comedy_Club_MERIFM.mp3"
+                    });
+                }
+
+            });
+        }
+
+        $('.share-trigger').bind('click', function() {
+            var scripts = document.getElementsByTagName("script");
+            var newScript = document.createElement("script");
+            newScript.src = "http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-517427cf23e21205";
+            $(newScript).attr('type', 'text/javascript');
+            $(scripts[scripts.length - 1]).after(newScript);
+            $(this).unbind('click');
+            $('.share-links').show();
+            $(this).hide();
+        });
+        
+    });
+            
+})(jQuery);
+
+        
+(function($) {
+    
+    $(document).ready(function () {
+        
+        var spanMapping = {
+            '.span6' : '2',
+            '.span3' : '4',
+            '.span2' : '6'
+        };
+        var spanObject = {
+            '2' : ['.performers-masonry'],
+            '4': ['#artistes-masonry', '.performances-masonry', '.performance-clips-masonry', '.performers-masonry'],
+            '6': ['.performances-masonry', '.performers-masonry']
+        };
+        
+        GLOBAL.masonry = function(length) {
+            var elements = [], doms = []; this.length = length; var obj = this, current_last = false;
+            var setLength = function(length) {
+                obj.length = length;
+            };
+            var setCount = function(count) {
+                obj.count = count;
+            };
+            var setElementsToNull = function() {
+                elements = [];
+            };
+            this.execute = function(dom_identifier, span_identifier) {
+                doms = $(dom_identifier + ' > ' + span_identifier);
+                var length = new Number(spanMapping[dom_identifier]).valueOf();
+                if(doms.length > length) {
+                    setLength(length);
+                    setCount($(dom_identifier).children().length);
+                    for(var index in doms) {
+                        elements.push(doms[index]);
+                        current_last = ( (( index + 1 ) % obj.length) === 0 );
+                        if( current_last || (!current_last && (( index + 1 ) === obj.count)) || (!current_last && (obj.count < obj.length)) ) {
+                            $(elements).wrapAll('<div class="controls-row clearfix decolumn_mini"/>');
+                            window.setTimeout(function() {
+                                setElementsToNull();
+                            }, 1);
+                        }
+                    }
+                }
+            };
+        };
+
+        if($('#artistes-masonry').length > 0 || $('.performances-masonry').length > 0 || $('.performance-clips-masonry').length > 0 || $('.performers-masonry').length > 0) {
+            var masonry = new GLOBAL.masonry(4);
+
+            for(var i in spanMapping) {
+                for(var index in spanObject[spanMapping[i]]) {
+                    window.setTimeout(function() {
+                        masonry.execute(spanObject[spanMapping[i]][index], i);
+                    }, 5);
+                }
+            }
+            
+//            elements = $('.performances-masonry > .span2');
+//            if(elements.length > 6) {
+//                masonry.setLength(6);
+//                masonry.setCount($('.performances-masonry').children().length);
+//                for(var index in elements) {
+//                    masonry.iterator(index, elements[index]);
+//                }
+//            }
+//            
+//            elements = $('.performances-masonry > .span3');
+//            if(elements.length > 4) {
+//                masonry.setLength(4);
+//                masonry.setCount($('.performances-masonry').children().length);
+//                for(var index in elements) {
+//                    masonry.iterator(index, elements[index]);
+//                }
+//            }
+//            
+//            elements = $('.performance-clips-masonry > .span3');
+//            if(elements.length > 4) {
+//                masonry.setLength(4);
+//                masonry.setCount($('.performance-clips-masonry').children().length);
+//                for(var index in elements) {
+//                    masonry.iterator(index, elements[index]);
+//                }
+//            }
+//            
+//            elements = $('.performers-masonry > .span2');
+//            if(elements.length > 6) {
+//                masonry.setLength(6);
+//                masonry.setCount($('.performers-masonry').children().length);
+//                for(var index in elements) {
+//                    masonry.iterator(index, elements[index]);
+//                }
+//            }
+//
+//            elements = $('.performers-masonry > .span3');
+//            if(elements.length > 4) {
+//                masonry.setLength(4);
+//                masonry.setCount($('.performers-masonry').children().length);
+//                for(var index in elements) {
+//                    masonry.iterator(index, elements[index]);
+//                }
+//            }
+//
+//            elements = $('.performers-masonry > .span6');
+//            if(elements.length > 2) {
+//                masonry.setLength(2);
+//                masonry.setCount($('.performers-masonry').children().length);
+//                for(var index in elements) {
+//                    masonry.iterator(index, elements[index]);
+//                }
+//            }
+
+        }
+    
+    });
+    
+})(jQuery);

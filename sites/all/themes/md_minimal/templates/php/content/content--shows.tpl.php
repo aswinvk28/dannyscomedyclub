@@ -1,31 +1,36 @@
 <div class="clearfix">
     <section class="content_block_content">
-        <a name="show-progress"></a>
-        
-        <?php print theme_render_template(path_to_theme() . '/layouts/shows-progress.php', array()); ?>
-        
-        <a name="show-times"></a>
-        <div class="column_title column_small">
-            <h4>Show Times</h4>
+        <div class="clearfix">
+            <a name="show-progress"></a>
+
+            <?php print theme_render_template(path_to_theme() . '/layouts/shows-progress.php', array()); ?>
+
+            <a name="show-times"></a>
+            <div class="column_title column_small">
+                <h4>Show Times</h4>
+            </div>
+            <p class="column_small white">There will be a couple of comfort breaks during the performance and the bar will remain open after the show.</p>
+            <p>Danny’s Comedy Club has shows on the last Friday of every month. Doors open at <span class="white">7.30pm</span>, with Curtain-up at <span class="white">8.30pm</span>.  We recommend you arrive early to get the best seats. </p>
+            <a name="drinks-served"></a>
+            <div class="column_title column_small">
+                <h4>Drinks Served</h4>
+            </div>
+            <div>
+                <p>The Club has a reasonably priced bar with discounts and special offers on Comedy Club nights, served by friendly, professional staff and accompanied by an excellent Danny's Comedy Club menu designed by the Birch's head chef.</p>
+                <p>The audience are seated informally, cabaret-style, so you won't feel conspicuous. </p>
+            </div>
+            <a name="admission-fee"></a>
+            <div class="column_title column_small">
+                <h4>Admission</h4>
+            </div>
+            <div>
+                <p>The Box Office can be found at the entrance to the Club, just to the right of the entrance lobby. Admission is <span class="white flarge">£7.00</span> per person, payable at the door on the night. </p>
+                <p><span class="white flarge">Advanced Tickets</span> are also available from the Hotel Reception at any time.</p>
+                <p><i>We regret that we do not give refunds after <span class="white flarge">9.00 pm.</span></i></p>
+            </div>
         </div>
-        <p class="column_small white">There will be a couple of comfort breaks during the performance and the bar will remain open after the show.</p>
-        <p>Danny’s Comedy Club has shows on the last Friday of every month. Doors open at <span class="white">7.30pm</span>, with Curtain-up at <span class="white">8.30pm</span>.  We recommend you arrive early to get the best seats. </p>
-        <a name="drinks-served"></a>
-        <div class="column_title column_small">
-            <h4>Drinks Served</h4>
-        </div>
-        <div>
-            <p>The Club has a reasonably priced bar with discounts and special offers on Comedy Club nights, served by friendly, professional staff and accompanied by an excellent Danny's Comedy Club menu designed by the Birch's head chef.</p>
-            <p>The audience are seated informally, cabaret-style, so you won't feel conspicuous. </p>
-        </div>
-        <a name="admission-fee"></a>
-        <div class="column_title column_small">
-            <h4>Admission</h4>
-        </div>
-        <div>
-            <p>The Box Office can be found at the entrance to the Club, just to the right of the entrance lobby. Admission is <span class="white flarge">£7.00</span> per person, payable at the door on the night. </p>
-            <p><span class="white flarge">Advanced Tickets</span> are also available from the Hotel Reception at any time.</p>
-            <p><i>We regret that we do not give refunds after <span class="white flarge">9.00 pm.</span></i></p>
+        <div class="clearfix content_block content_block_content column_small border_radius_large fsmall column">
+            <p>Danny's Comedy Club offers comedy and other entertainment for the over 18's. Please be aware that much of the material will be adult in nature and those easily offended should stay at home with a mug of cocoa.</p>
         </div>
     </section>
     <section>

@@ -266,4 +266,8 @@ function dcc_node_url_load($node_url) {
     return $nid ? node_load($nid) : FALSE;
 }
 
+function bartik_theme_callback() {
+    return 'bartik';
+}
+
 ?>

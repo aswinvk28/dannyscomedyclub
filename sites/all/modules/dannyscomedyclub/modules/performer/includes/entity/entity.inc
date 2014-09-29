@@ -8,6 +8,7 @@ class PerformerEntity extends CommonEntity {
     var $performer_yt;
     var $performer_website;
     var $performer_opt;
+    var $entity_quote;
     private $options;
     private $bundle_node;
     private $bundle_entity;

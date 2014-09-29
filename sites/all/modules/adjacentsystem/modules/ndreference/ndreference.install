@@ -1,52 +1,52 @@
 <?php 
 
 function ndreference_schema() {
-    $schema = array();
-    
-    $schema['dcc_entity_ndreference'] = array(
-        'description' => 'Node Document References from various sources',
-        'fields' => array(
-            'ndreference_id' => array(
-                'type' => 'serial', 
-                'unsigned' => TRUE, 
-                'not null' => TRUE),
-            'entity_document_id' => array(
-                'type' => 'int',
-                'unsigned' => TRUE,
-                'not null' => FALSE,
-                'default' => NULL),
-            'entity_node_reference_id' => array(
-                'type' => 'int', 
-                'unsigned' => TRUE, 
-                'not null' => TRUE),
-            'entity_taxonomy_agency_id' => array(
-                'type' => 'int', 
-                'unsigned' => TRUE, 
-                'not null' => FALSE,
-                'default' => NULL),
-            'ndreference_name' => array(
-                'type' => 'varchar',
-                'length' => 128,
-                'not null' => FALSE,
-                'default' => NULL),
-            'ndreference_date' => array(
-                'type' => 'datetime',
-                'mysql_type' => 'datetime',
-                'not null' => FALSE,
-                'sortable' => TRUE,
-                'views' => TRUE,
-                'default' => NULL),
-            'ndreference_bundle' => array(
-                'type' => 'varchar',
-                'length' => 32,
-                'not null' => TRUE)
-        ),
-        'indexes' => array('node_reference' => array('entity_node_reference_id'), 'agency' => array('entity_taxonomy_agency_id'), 'bundle' => array('ndreference_bundle')),
-        'unique keys' => array('document' => array('entity_document_id')),
-        'primary key' => array('ndreference_id')
-    );
-    
-    return $schema;
+//    $schema = array();
+//    
+//    $schema['dcc_entity_ndreference'] = array(
+//        'description' => 'Node Document References from various sources',
+//        'fields' => array(
+//            'ndreference_id' => array(
+//                'type' => 'serial', 
+//                'unsigned' => TRUE, 
+//                'not null' => TRUE),
+//            'entity_document_id' => array(
+//                'type' => 'int',
+//                'unsigned' => TRUE,
+//                'not null' => FALSE,
+//                'default' => NULL),
+//            'entity_node_reference_id' => array(
+//                'type' => 'int', 
+//                'unsigned' => TRUE, 
+//                'not null' => TRUE),
+//            'entity_taxonomy_agency_id' => array(
+//                'type' => 'int', 
+//                'unsigned' => TRUE, 
+//                'not null' => FALSE,
+//                'default' => NULL),
+//            'ndreference_name' => array(
+//                'type' => 'varchar',
+//                'length' => 128,
+//                'not null' => FALSE,
+//                'default' => NULL),
+//            'ndreference_date' => array(
+//                'type' => 'datetime',
+//                'mysql_type' => 'datetime',
+//                'not null' => FALSE,
+//                'sortable' => TRUE,
+//                'views' => TRUE,
+//                'default' => NULL),
+//            'ndreference_bundle' => array(
+//                'type' => 'varchar',
+//                'length' => 32,
+//                'not null' => TRUE)
+//        ),
+//        'indexes' => array('node_reference' => array('entity_node_reference_id'), 'agency' => array('entity_taxonomy_agency_id'), 'bundle' => array('ndreference_bundle')),
+//        'unique keys' => array('document' => array('entity_document_id')),
+//        'primary key' => array('ndreference_id')
+//    );
+//    
+//    return $schema;
 }
 
 function ndreference_install() {

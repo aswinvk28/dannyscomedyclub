@@ -2,8 +2,8 @@
     
     <div class="clearfix column">
         <span class="white">Title:</span>
-        <meta itemprop="name" value="<?php print $press_release['name']; ?>" />
-        <meta itemprop="url" value="<?php print $url; ?>" />
+        <meta itemprop="name" content="<?php print $press_release['name']; ?>" />
+        <meta itemprop="url" content="<?php print $url; ?>" />
         <div class="clearfix column_small">
         <?php print theme('list_item_view', array(
             'ul_class' => 'act-tags',
@@ -20,8 +20,8 @@
     <div class="clearfix column">
         <span class="white">Press Release For:</span>
         <div itemprop="itemReviewed" itemscope itemtype="http://schema.org/Thing">
-            <meta itemprop="url" value="<?php print $press_release['reference_path']; ?>" />
-            <meta itemprop="name" value="<?php print $press_release['reference_title']; ?>" />
+            <meta itemprop="url" content="<?php print $press_release['reference_path']; ?>" />
+            <meta itemprop="name" content="<?php print $press_release['reference_title']; ?>" />
         </div>
         <div class="clearfix column_small">
         <?php print theme('list_item_view', array(

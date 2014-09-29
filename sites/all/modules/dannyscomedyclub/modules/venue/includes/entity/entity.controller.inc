@@ -10,7 +10,7 @@ class VenueController extends BundleNodeEntityCRUD implements BundleNodeEntityCR
             }
             unset($node_conditions['node.status']);
         }
-        $fields =& $query->getFields();
+        $fields = &$query->getFields();
         unset($fields['venue_address']);
         unset($fields['venue_location']);
         unset($fields['venue_telephone']);

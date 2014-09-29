@@ -6,7 +6,7 @@ function entityfunctionality_entity_info_alter(&$entity_info) {
 
 function entityfunctionality_permission() {
     return array(
-        'entity_access' => array(
+        'entity access' => array(
             'title' => t('Access to Entity'),
         )
     );
@@ -50,13 +50,24 @@ function entityfunctionality_set_entity_reference_node_entity($entityType, $enti
     return $entity;
 }
 
-function dannyscomedyclub_entity_access() {
+function dannyscomedyclub_entity_access($op, $entity_type, $entity = NULL, $account = NULL) {
     global $user;
     
     $perms = user_role_permissions($user->roles);
-    $rid = array_search('authenticated user', $user->roles);
-    if(!empty($rid)) {
-        return in_array('entity access', $perms[$rid]);
+    
+    return dannyscomedyclub_entity_permissions($perms, $entity_type);
+}
+
+function dannyscomedyclub_entity_permissions($perms, $entity_type = '') {
+    if(!empty($entity_type)) {
+        $entity_type = $entity_type . ' ';
+    }
+    if(is_array($perms)) {
+        foreach($perms as $role_id => $permissions) {
+            if(in_array('entity ' . $entity_type . 'access', $permissions)) {
+                return TRUE;
+            }
+        }
     }
     return FALSE;
 }

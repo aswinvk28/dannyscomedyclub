@@ -15,6 +15,7 @@
     <script src="<?php echo base_path(). path_to_theme(); ?>/js/html5.js" type="text/javascript"></script>
     <script src="/sites/default/packages/PIE/PIE.js" type="text/javascript"></script>
 <![endif]-->
+<?php if ($md_minimal_analytics) print $md_minimal_analytics; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes; ?>>
     <div class="fixed-image page_wrapper hidden-phone"></div>
@@ -23,6 +24,5 @@
     <?php print $page; ?>
     <?php print $page_bottom; ?>
     <?php print $scripts; ?>
-    <?php // if ($md_minimal_analytics) print $md_minimal_analytics; ?>
 </body>
 </html>

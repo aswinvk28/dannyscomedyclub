@@ -6,6 +6,7 @@ class ShowEntity extends CommonEntity {
     var $entity_event_id;
     var $node_title;
     var $node_type = 'shows';
+    var $entity_quote;
     private $event;
     private $bundle_node;
     private $bundle_entity;
