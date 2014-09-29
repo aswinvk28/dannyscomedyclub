@@ -4,7 +4,7 @@
             <div class="clearfix column_small">
                 <span class="white">Date:</span>
                 <div class="clearfix">
-                    <meta itemprop="startDate" value="<?php print $show['date']; ?>" />
+                    <meta itemprop="dtstart startDate" content="<?php print $show['date']; ?>" />
                     <?php $date = new DateTime($show['date']);
                     print theme('list_item_view', array(
                         'ul_class' => 'act-tags',
@@ -20,8 +20,8 @@
             <div class="clearfix column_small">
                 <span class="white">Venue:</span>
                 <div class="clearfix" itemscope itemtype="http://schema.org/EventVenue" itemprop="location">
-                    <meta itemprop="name" value="<?php print $venue['title']; ?>" />
-                    <meta itemprop="url" value="<?php print $venue['path']; ?>" />
+                    <meta itemprop="name" content="<?php print $venue['title']; ?>" />
+                    <meta itemprop="url" content="<?php print $venue['path']; ?>" />
                     <?php print theme('list_item_view', array(
                         'ul_class' => 'act-tags',
                         'li_class' => 'act-tag pull-left white',
@@ -97,9 +97,9 @@
         <header class="column_title row">
             <h3>Snaps of the Show:</h3>
         </header>
-        <article class="row column_mini performances-masonry">
+        <div class="row column_mini performances-masonry">
             <?php print $show['photos']; ?>
-        </article>
+        </div>
     </section>
     <?php if(!empty($show['highlights'])) { ?>
     <section class="column clearfix">

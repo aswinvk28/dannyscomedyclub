@@ -89,8 +89,8 @@
             <?php } ?>
             <div class="clearfix column">
                 <span class="white">About <?php print $performer['title']; ?>:</span>
-                <meta itemprop="name" value="<?php print $performer['title']; ?>" />
-                <meta itemprop="url" value="<?php print $performer['path']; ?>" />
+                <meta itemprop="name" content="<?php print $performer['title']; ?>" />
+                <meta itemprop="url" content="<?php print $performer['path']; ?>" />
                 <article class="row-fluid column_mini">
                     <aside class="span4">
                         <?php print $performer_image; ?>

@@ -9,6 +9,7 @@ class PerformanceEntity extends CommonEntity {
     var $performance_video;
     var $entity_taxonomy_performances_types_id;
     var $node_type = 'performances';
+    var $entity_quote;
     private $event;
     private $bundle_node;
     private $bundle_entity;

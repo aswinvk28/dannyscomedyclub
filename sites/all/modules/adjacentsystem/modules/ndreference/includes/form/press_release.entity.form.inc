@@ -18,7 +18,7 @@ function press_release_form_validate($form, $form_state) {
         form_set_error('document_body', 'Enter valid strings for Document Body');
     }
     
-    if(!empty($object->ndreference_name) && !preg_match('/^[a-z\w\s\ \-\,\.A-Z]+$/', $object->ndreference_name)) {
+    if(!empty($object->ndreference_name) && !preg_match("/^(\w+\d*[\'\-\,\.]*\s?)+/i", $object->ndreference_name)) {
         form_set_error('ndreference_name', 'Enter Review Name');
     }
     $term = taxonomy_term_load($object->entity_taxonomy_agency_id);

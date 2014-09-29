@@ -3,8 +3,8 @@
     <?php if(!empty($review['name'])) { ?>
     <div class="clearfix column">
         <span class="white">Title:</span>
-        <meta itemprop="name" value="<?php print $review['name']; ?>" />
-        <meta itemprop="url" value="<?php print $url; ?>" />
+        <meta itemprop="name" content="<?php print $review['name']; ?>" />
+        <meta itemprop="url" content="<?php print $url; ?>" />
         <div class="clearfix column_small">
         <?php print theme('list_item_view', array(
             'ul_class' => 'act-tags',
@@ -22,8 +22,8 @@
     <div class="clearfix column">
         <span class="white">Review For:</span>
         <div itemprop="itemReviewed" itemscope itemtype="http://schema.org/Thing">
-            <meta itemprop="url" value="<?php print $review['reference_path']; ?>" />
-            <meta itemprop="name" value="<?php print $review['reference_title']; ?>" />
+            <meta itemprop="url" content="<?php print $review['reference_path']; ?>" />
+            <meta itemprop="name" content="<?php print $review['reference_title']; ?>" />
         </div>
         <div class="clearfix column_small">
         <?php print theme('list_item_view', array(

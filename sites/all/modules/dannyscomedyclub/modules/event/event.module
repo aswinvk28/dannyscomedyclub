@@ -53,4 +53,69 @@ function event_set_event_bundles($event_bundle) {
     return $event_options;
 }
 
+function event_menu_alter(&$items) {
+    $items['admin/performance']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/performance/add']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/performance/list']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/performance/manage/%']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/performance/manage/%/%']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/performance/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/performance/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
+    
+    $items['admin/show']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/show/add']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/show/list']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/show/manage/%']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/show/manage/%/%']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/show/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/show/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
+    
+//    $items['admin/performance']['access callback'] = 'entity_access';
+//    $items['admin/performance/add']['access callback'] = 'entity_access';
+//    $items['admin/performance/list']['access callback'] = 'entity_access';
+//    $items['admin/performance/manage/%']['access callback'] = 'entity_access';
+//    $items['admin/performance/manage/%/%']['access callback'] = 'entity_access';
+//    $items['admin/performance/manage/%/edit']['access callback'] = 'entity_access';
+//    $items['admin/performance/manage/%/delete']['access callback'] = 'entity_access';
+//    
+//    $items['admin/show']['access callback'] = 'entity_access';
+//    $items['admin/show/add']['access callback'] = 'entity_access';
+//    $items['admin/show/list']['access callback'] = 'entity_access';
+//    $items['admin/show/manage/%']['access callback'] = 'entity_access';
+//    $items['admin/show/manage/%/%']['access callback'] = 'entity_access';
+//    $items['admin/show/manage/%/edit']['access callback'] = 'entity_access';
+//    $items['admin/show/manage/%/delete']['access callback'] = 'entity_access';
+//    
+//    $items['admin/performance']['access arguments'] = array('manage', 'performance');
+//    $items['admin/performance/add']['access arguments'] = array('create', 'performance');
+//    $items['admin/performance/list']['access arguments'] = array('manage', 'performance');
+//    $items['admin/performance/manage/%']['access arguments'] = array('edit', 'performance');
+//    $items['admin/performance/manage/%/%']['access arguments'] = array('edit', 'performance');
+//    $items['admin/performance/manage/%/edit']['access arguments'] = array('edit', 'performance');
+//    $items['admin/performance/manage/%/delete']['access arguments'] = array('delete', 'performance');
+//    
+//    $items['admin/show']['access arguments'] = array('manage', 'show');
+//    $items['admin/show/add']['access arguments'] = array('create', 'show');
+//    $items['admin/show/list']['access arguments'] = array('manage', 'show');
+//    $items['admin/show/manage/%']['access arguments'] = array('edit', 'show');
+//    $items['admin/show/manage/%/%']['access arguments'] = array('edit', 'show');
+//    $items['admin/show/manage/%/edit']['access arguments'] = array('edit', 'show');
+//    $items['admin/show/manage/%/delete']['access arguments'] = array('delete', 'show');
+}
+
+function event_permission() {
+    return array(
+        'entity performance access' => array(
+            'title' => t('Performance Entity Access'),
+            'description' => t('Manage, view, edit and delete all performance entity content.'),
+            'restrict access' => TRUE,
+        ),
+        'entity show access' => array(
+            'title' => t('Show Entity Access'),
+            'description' => t('Manage, view, edit and delete all show entity content.'),
+            'restrict access' => TRUE,
+        )
+    );
+}
+
 ?>

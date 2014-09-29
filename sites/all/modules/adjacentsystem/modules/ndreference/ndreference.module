@@ -73,4 +73,69 @@ function ndreference_entity_object_load($entity_id, $entityType) {
     return $entity->getBundleString() == $entityType ? $entity : FALSE;
 }
 
+function ndreference_menu_alter(&$items) {
+    $items['admin/review']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/review/add']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/review/list']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/review/manage/%']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/review/manage/%/%']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/review/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/review/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
+    
+    $items['admin/press-release']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/press-release/add']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/press-release/list']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/press-release/manage/%']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/press-release/manage/%/%']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/press-release/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
+    $items['admin/press-release/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
+    
+//    $items['admin/review']['access callback'] = 'entity_access';
+//    $items['admin/review/add']['access callback'] = 'entity_access';
+//    $items['admin/review/list']['access callback'] = 'entity_access';
+//    $items['admin/review/manage/%']['access callback'] = 'entity_access';
+//    $items['admin/review/manage/%/%']['access callback'] = 'entity_access';
+//    $items['admin/review/manage/%/edit']['access callback'] = 'entity_access';
+//    $items['admin/review/manage/%/delete']['access callback'] = 'entity_access';
+//    
+//    $items['admin/press-release']['access callback'] = 'entity_access';
+//    $items['admin/press-release/add']['access callback'] = 'entity_access';
+//    $items['admin/press-release/list']['access callback'] = 'entity_access';
+//    $items['admin/press-release/manage/%']['access callback'] = 'entity_access';
+//    $items['admin/press-release/manage/%/%']['access callback'] = 'entity_access';
+//    $items['admin/press-release/manage/%/edit']['access callback'] = 'entity_access';
+//    $items['admin/press-release/manage/%/delete']['access callback'] = 'entity_access';
+//    
+//    $items['admin/review']['access arguments'] = array('manage', 'review');
+//    $items['admin/review/add']['access arguments'] = array('create', 'review');
+//    $items['admin/review/list']['access arguments'] = array('manage', 'review');
+//    $items['admin/review/manage/%']['access arguments'] = array('edit', 'review');
+//    $items['admin/review/manage/%/%']['access arguments'] = array('edit', 'review');
+//    $items['admin/review/manage/%/edit']['access arguments'] = array('edit', 'review');
+//    $items['admin/review/manage/%/delete']['access arguments'] = array('delete', 'review');
+//    
+//    $items['admin/press-release']['access arguments'] = array('manage', 'press_release');
+//    $items['admin/press-release/add']['access arguments'] = array('create', 'press_release');
+//    $items['admin/press-release/list']['access arguments'] = array('manage', 'press_release');
+//    $items['admin/press-release/manage/%']['access arguments'] = array('edit', 'press_release');
+//    $items['admin/press-release/manage/%/%']['access arguments'] = array('edit', 'press_release');
+//    $items['admin/press-release/manage/%/edit']['access arguments'] = array('edit', 'press_release');
+//    $items['admin/press-release/manage/%/delete']['access arguments'] = array('delete', 'press_release');
+}
+
+function ndreference_permission() {
+    return array(
+        'entity review access' => array(
+            'title' => t('Review Entity Access'),
+            'description' => t('Manage, view, edit and delete all review entity content.'),
+            'restrict access' => TRUE,
+        ),
+        'entity press_release access' => array(
+            'title' => t('Press Release Entity Access'),
+            'description' => t('Manage, view, edit and delete all press-release entity content.'),
+            'restrict access' => TRUE,
+        )
+    );
+}
+
 ?>

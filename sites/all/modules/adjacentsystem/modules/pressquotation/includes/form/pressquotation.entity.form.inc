@@ -61,25 +61,26 @@ function pressquotation_fields_node_replicate($form, $form_state, $quote, $field
         '#description' => t('The Date of the Quote')
     );
     
-    if($ajax) {
-        foreach($fields as $key => $field) {
-            $index = 'entity_quote['.$key.']';
-            $fields[$index] = $field;
-            $fields[$index]['#attributes'] = array('name' => $index);
-            unset($fields[$key]);
-        }
-        $fields['entity_quote[quote'.$quote_id.']']['#value'] = !empty($form_state['values']['entity_quote']['quote'.$quote_id]) ? 
-            $form_state['values']['entity_quote']['quote'.$quote_id] : !is_null($quote->getQuoteBody()) ? $quote->getQuoteBody() : '';
-        $fields['entity_quote[quote_date'.$quote_id.']']['#id'] = 'quote-date-plus';
-    }
+//    if($ajax) {
+//        foreach($fields as $key => $field) {
+//            $index = 'entity_quote['.$key.']';
+//            $fields[$index] = $field;
+//            $fields[$index]['#attributes'] = array('name' => $index);
+//            unset($fields[$key]);
+//        }
+//        $fields['entity_quote[quote'.$quote_id.']']['#value'] = !empty($form_state['values']['entity_quote']['quote'.$quote_id]) ? 
+//            $form_state['values']['entity_quote']['quote'.$quote_id] : !is_null($quote->getQuoteBody()) ? $quote->getQuoteBody() : '';
+//        $fields['entity_quote[quote_date'.$quote_id.']']['#id'] = 'quote-date-plus';
+//    }
     
     return $fields;
     
 }
 
-function pressquotation_fields_node_submit($node) {
+function pressquotation_fields_node_submit($node, $key) {
+    $entityId = $key == 'entity' ? $node->getBundle() : $node->nid;
     $quotes = QuoteCRUD::get_entity(array(
-        'node' => $node
+        $key => $node
     ));
     $transaction = db_transaction();
     try {
@@ -102,7 +103,7 @@ function pressquotation_fields_node_submit($node) {
                         $save_array = array(
                             'is_new' => FALSE,
                             'pressquotation_id' => $entity_id,
-                            'entity_node_reference_id' => $node->nid,
+                            'entity_node_reference_id' => $entityId,
                         );
                         $save_array += QuoteEntityWrapper::data(array(
                             'entity_taxonomy_agency_id' => $node->entity_quote['entity_taxonomy_agency_id'.$quote_id],
@@ -117,15 +118,15 @@ function pressquotation_fields_node_submit($node) {
                 }
             }
         }
-
+        
         if(!empty($node->entity_quote['quote_plus'])) {
             $save_array = array(
                 'is_new' => TRUE,
-                'entity_node_reference_id' => $node->nid,
+                'entity_node_reference_id' => $entityId,
             );
             $save_array += QuoteEntityWrapper::data(array(
                 'entity_taxonomy_agency_id' => $node->entity_quote['entity_taxonomy_agency_id_plus'],
-                'entity_taxonomy_author' => $node->entity_quote['entity_taxonomy_author_id_plus'],
+                'entity_taxonomy_author_id' => $node->entity_quote['entity_taxonomy_author_id_plus'],
                 'quote' => $node->entity_quote['quote_plus'],
                 'quote_date' => $node->entity_quote['quote_date_plus']
             ));
@@ -133,9 +134,34 @@ function pressquotation_fields_node_submit($node) {
             $quote = entity_get_controller('pressquotation')->create($save_array);
             $quote->save();
         }
+        
+        $count = is_array($quotes) ? count($quotes) : 1;
+        for($index = 5; $index > $count; $index--) {
+            if(!empty($node->entity_quote['quote_plus_'.$index])) {
+                $save_array = array(
+                    'is_new' => TRUE,
+                    'entity_node_reference_id' => $entityId,
+                );
+                $save_array += QuoteEntityWrapper::data(array(
+                    'entity_taxonomy_agency_id' => $node->entity_quote['entity_taxonomy_agency_id_plus_'.$index],
+                    'entity_taxonomy_author_id' => $node->entity_quote['entity_taxonomy_author_id_plus_'.$index],
+                    'quote' => $node->entity_quote['quote_plus_'.$index],
+                    'quote_date' => $node->entity_quote['quote_date_plus_'.$index]
+                ));
+
+                $quote = entity_get_controller('pressquotation')->create($save_array);
+                $quote->save();
+            }
+        }
     } catch(Exception $e) {
         $transaction->rollback();
     }
+}
+
+function pressquotation_fields_entity_submit($form, $form_state) {
+    $entity = $form_state['entity'];
+    $entity->entity_quote = $form_state['values']['entity_quote'];
+    pressquotation_fields_node_submit($entity, 'entity');
 }
 
 function pressquotation_formfields_node_validate($node) {

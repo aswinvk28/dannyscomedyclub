@@ -16,8 +16,12 @@ $rest_shows = array_diff_key($context_shows, $upcoming_shows);
 $finished_shows = array_filter($rest_shows, function($entity) {
     return taxonomy_term_load($entity->getParentEntity()->getEventStatus())->name == 'Finished';
 });
+$rest_shows = array_diff_key($context_shows, $finished_shows);
+$confirmed_shows = array_filter($rest_shows, function($entity) {
+    return taxonomy_term_load($entity->getParentEntity()->getEventStatus())->name == 'Confirmed';
+});
 
-$context_shows = array_merge($upcoming_shows, $finished_shows, array_diff_key($rest_shows, $finished_shows));
+$context_shows = array_merge($upcoming_shows, $finished_shows, $confirmed_shows, array_diff_key($rest_shows, $confirmed_shows));
 
 if( !empty( $context_shows ) ) { ?>
 
