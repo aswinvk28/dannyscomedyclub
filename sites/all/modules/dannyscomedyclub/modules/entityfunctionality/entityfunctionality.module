@@ -50,7 +50,7 @@ function entityfunctionality_set_entity_reference_node_entity($entityType, $enti
     return $entity;
 }
 
-function dannyscomedyclub_entity_access($op, $entity_type, $entity = NULL, $account = NULL) {
+function dannyscomedyclub_entity_access($op, $entity, $account = NULL, $entity_type = '') {
     global $user;
     
     $perms = user_role_permissions($user->roles);
