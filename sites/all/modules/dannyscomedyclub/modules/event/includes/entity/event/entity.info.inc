@@ -53,7 +53,6 @@ function event_entity_info() {
             'entity class' => 'PerformanceEntity',
             'label callback' => 'entity_node_label',
             'access callback' => 'dannyscomedyclub_entity_access',
-            'access arguments' => 'performance',
             'uri callback' => 'dcc_entity_node_uri',
             'bundles' => array(
                 'performances' => array(
@@ -91,7 +90,6 @@ function event_entity_info() {
             'label callback' => 'entity_node_label',
             'uri callback' => 'dcc_entity_node_uri',
             'access callback' => 'dannyscomedyclub_entity_access',
-            'access arguments' => 'show',
             'bundles' => array(
                 'shows' => array(
                     'label' => t('Shows')

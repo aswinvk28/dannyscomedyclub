@@ -16,6 +16,14 @@ class PerformanceController extends BundleNodeEntityCRUD implements BundleNodeEn
         return $query;
     }
     
+    public function setNewActs(array $performances) {
+        foreach($performances as $performance_entity) {
+            $performance_entities = $performance_entity->getPerformerEntity()->getPublishedPerformances();
+            $performance_entity->setNew(count($performance_entities));
+        }
+        return $performances;
+    }
+    
 }
 
 ?>

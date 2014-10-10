@@ -55,15 +55,15 @@ function artistes_page_list($page_number) {
     return false;
 }
 
-function performer_menu_alter(&$items) {
-    $items['admin/performer']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performer/add']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performer/list']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performer/manage/%']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performer/manage/%/%']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performer/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performer/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
-    
+//function performer_menu_alter(&$items) {
+//    $items['admin/performer']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performer/add']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performer/list']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performer/manage/%']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performer/manage/%/%']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performer/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performer/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
+//    
 //    $items['admin/performer']['access callback'] = 'entity_access';
 //    $items['admin/performer/add']['access callback'] = 'entity_access';
 //    $items['admin/performer/list']['access callback'] = 'entity_access';
@@ -79,7 +79,7 @@ function performer_menu_alter(&$items) {
 //    $items['admin/performer/manage/%/%']['access arguments'] = array('edit', 'performer');
 //    $items['admin/performer/manage/%/edit']['access arguments'] = array('edit', 'performer');
 //    $items['admin/performer/manage/%/delete']['access arguments'] = array('delete', 'performer');
-}
+//}
 
 function performer_permission() {
     return array(

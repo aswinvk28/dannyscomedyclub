@@ -17,7 +17,6 @@ function performer_entity_info() {
             'label callback' => 'entity_node_label',
             'uri callback' => 'dcc_entity_node_uri',
             'access callback' => 'dannyscomedyclub_entity_access',
-            'access arguments' => 'performer',
             'bundles' => array(
                 'artistes' => array(
                     'label' => t('Artistes')
