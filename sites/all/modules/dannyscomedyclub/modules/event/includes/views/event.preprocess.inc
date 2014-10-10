@@ -54,7 +54,7 @@ function performance_performance__performance__front_page(&$vars) {
 
     $vars['performer_image'] = field_view_field('node', $performer_node, 'field_image', 'scaled_down');
 
-    $types = require_once drupal_get_path('module', 'dannyscomedyclub') . '/config/performances_types.inc';
+    $types = require_once DRUPAL_ROOT.base_path().drupal_get_path('module', 'dannyscomedyclub') . '/config/performances_types.inc';
     $taxonomy_entity = new TaxonomyEntity(array(
         'tid' => $performance_entity->getPerformanceType()
     ), 'taxonomy_term');
