@@ -15,6 +15,7 @@ class PerformanceEntity extends CommonEntity {
     private $bundle_entity;
     private $show_entity;
     private $performer_entity;
+    private $isNew;
     
     public function getParentEntity() {
         if(empty($this->event)) {
@@ -101,6 +102,14 @@ class PerformanceEntity extends CommonEntity {
     
     public function getYtVideoId() {
         return str_replace('http://www.youtube.com/watch?v=', '', $this->getVideo());
+    }
+    
+    public function isNew() {
+        return $this->isNew === 1;
+    }
+    
+    public function setNew($count) {
+        $this->isNew = $count;
     }
 }
 

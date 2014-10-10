@@ -1,4 +1,4 @@
-<article class="<?php echo $classes; ?>" <?php echo $attributes; ?> itemscope itemtype="http://schema.org/"<?php print $itemType; ?>>
+<article class="<?php echo $classes; ?>" <?php echo $attributes; ?> itemscope itemtype="http://schema.org/<?php print $itemType; ?>">
     <meta itemprop="url" content="<?php echo $url; ?>" />
     <h3 class="clearfix" itemprop="performer" itemscope itemtype="http://schema.org/Person">
         <span><a class="underline pull-left heading_title" itemprop="url" href="<?php print $performer['path']; ?>"><span itemprop="name"><?php echo $performer['title']; ?></span></a></span>

@@ -51,7 +51,6 @@ function ndreference_entity_info() {
             'static cache' => TRUE,
             'entity cache' => TRUE,
             'access callback' => 'dannyscomedyclub_entity_access',
-            'access arguments' => 'review',
             'label callback' => 'entity_node_label',
             'bundles' => array(
                 'review' => array(
@@ -95,7 +94,6 @@ function ndreference_entity_info() {
             'entity cache' => TRUE,
             'fieldable' => FALSE,
             'access callback' => 'dannyscomedyclub_entity_access',
-            'access arguments' => 'press_release',
             'label callback' => 'entity_node_label',
             'bundles' => array(
                 'pressrelease' => array(

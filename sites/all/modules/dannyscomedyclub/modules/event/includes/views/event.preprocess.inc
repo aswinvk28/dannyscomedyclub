@@ -59,6 +59,7 @@ function performance_performance__performance__front_page(&$vars) {
         'tid' => $performance_entity->getPerformanceType()
     ), 'taxonomy_term');
     $vars['itemType'] = $types[$taxonomy_entity->getName()];
+    $vars['classes_array'][] = $performance_entity->isNew() == 1 ? 'performer_act_first' : '';
 }
 
 function performance_performance__performance__video_view(&$vars) {
@@ -72,7 +73,9 @@ function performance_performance__performance__video_view(&$vars) {
 
 function show_show__show__front_page(&$vars) {
     $entity = $vars['elements']['#entity'];
-    $entity_view = entity_view('performance', $entity->getPublishedPerformances(), 'front_page');
+    $performances = $entity->getPublishedPerformances();
+    $performances = entity_get_controller('performance')->setNewActs($performances);
+    $entity_view = entity_view('performance', $performances, 'front_page');
     $vars['published_performances'] = drupal_render($entity_view);
     $show_entity_view = new ShowEntityView($entity);
     if(module_exists('venue')) {

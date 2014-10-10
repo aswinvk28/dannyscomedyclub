@@ -73,23 +73,23 @@ function ndreference_entity_object_load($entity_id, $entityType) {
     return $entity->getBundleString() == $entityType ? $entity : FALSE;
 }
 
-function ndreference_menu_alter(&$items) {
-    $items['admin/review']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/review/add']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/review/list']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/review/manage/%']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/review/manage/%/%']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/review/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/review/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
-    
-    $items['admin/press-release']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/press-release/add']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/press-release/list']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/press-release/manage/%']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/press-release/manage/%/%']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/press-release/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/press-release/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
-    
+//function ndreference_menu_alter(&$items) {
+//    $items['admin/review']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/review/add']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/review/list']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/review/manage/%']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/review/manage/%/%']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/review/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/review/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
+//    
+//    $items['admin/press-release']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/press-release/add']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/press-release/list']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/press-release/manage/%']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/press-release/manage/%/%']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/press-release/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/press-release/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
+//    
 //    $items['admin/review']['access callback'] = 'entity_access';
 //    $items['admin/review/add']['access callback'] = 'entity_access';
 //    $items['admin/review/list']['access callback'] = 'entity_access';
@@ -121,7 +121,7 @@ function ndreference_menu_alter(&$items) {
 //    $items['admin/press-release/manage/%/%']['access arguments'] = array('edit', 'press_release');
 //    $items['admin/press-release/manage/%/edit']['access arguments'] = array('edit', 'press_release');
 //    $items['admin/press-release/manage/%/delete']['access arguments'] = array('delete', 'press_release');
-}
+//}
 
 function ndreference_permission() {
     return array(

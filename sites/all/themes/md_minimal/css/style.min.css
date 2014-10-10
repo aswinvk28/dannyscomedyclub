@@ -2,6 +2,9 @@
 /* vallenato.css */
 .akordeon-heading{position:relative}.akordeon-heading .toggle-image{right:10px;top:10px;width:50px;height:25px;font-size:11px;text-decoration:underline;color:#049cdb}
 .padding-20 {padding: 20px;}.bg-gray{background-color:#303030}
+.performer_act_first {
+    background: url('../images/icons/shows/New_Act.png') 10px 50% no-repeat;
+}
 .modal-backdrop {
     background-color: #000000;
     bottom: 0;

@@ -1,4 +1,4 @@
-<div class="clearfix column <?php print $classes; ?>" <?php print $attributes; ?> itemscope itemtype="http://schema.org/"<?php print $itemType; ?>>
+<div class="clearfix column <?php print $classes; ?>" <?php print $attributes; ?> itemscope itemtype="http://schema.org/<?php print $itemType; ?>">
     <h3 class="white">
         <span itemprop="performer" itemscope itemtype="http://schema.org/Person">
             <a itemprop="url" href="<?php print $performer['path']; ?>"><span itemprop="name"><?php print $performer['title']; ?></span></a>

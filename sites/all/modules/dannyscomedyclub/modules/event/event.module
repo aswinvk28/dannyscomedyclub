@@ -53,23 +53,23 @@ function event_set_event_bundles($event_bundle) {
     return $event_options;
 }
 
-function event_menu_alter(&$items) {
-    $items['admin/performance']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performance/add']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performance/list']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performance/manage/%']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performance/manage/%/%']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performance/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/performance/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
-    
-    $items['admin/show']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/show/add']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/show/list']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/show/manage/%']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/show/manage/%/%']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/show/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
-    $items['admin/show/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
-    
+//function event_menu_alter(&$items) {
+//    $items['admin/performance']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performance/add']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performance/list']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performance/manage/%']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performance/manage/%/%']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performance/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/performance/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
+//    
+//    $items['admin/show']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/show/add']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/show/list']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/show/manage/%']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/show/manage/%/%']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/show/manage/%/edit']['theme callback'] = 'bartik_theme_callback';
+//    $items['admin/show/manage/%/delete']['theme callback'] = 'bartik_theme_callback';
+//    
 //    $items['admin/performance']['access callback'] = 'entity_access';
 //    $items['admin/performance/add']['access callback'] = 'entity_access';
 //    $items['admin/performance/list']['access callback'] = 'entity_access';
@@ -101,7 +101,7 @@ function event_menu_alter(&$items) {
 //    $items['admin/show/manage/%/%']['access arguments'] = array('edit', 'show');
 //    $items['admin/show/manage/%/edit']['access arguments'] = array('edit', 'show');
 //    $items['admin/show/manage/%/delete']['access arguments'] = array('delete', 'show');
-}
+//}
 
 function event_permission() {
     return array(
