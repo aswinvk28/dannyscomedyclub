@@ -51,6 +51,7 @@ if(!class_exists('NodeEntity')) :
 class NodeEntity extends CommonEntity {
     var $nid;
     var $type;
+    var $sticky;
     protected $node;
     protected $title;
     private $fetched;
@@ -74,9 +75,9 @@ class NodeEntity extends CommonEntity {
     
     function initialize() {
         if(empty($this->fetched)) {
-            $this->fetched = $this->getEntityField(array($this->entityInfo['entity keys']['label'], $this->entityInfo['entity keys']['bundle']));
+            $this->fetched = $this->getEntityField(array($this->entityInfo['entity keys']['label'], $this->entityInfo['entity keys']['bundle'], 'sticky'));
             if(!empty($this->fetched)) {
-                list($this->title, $this->type) = array_values((array) $this->fetched);
+                list($this->title, $this->type, $this->sticky) = array_values((array) $this->fetched);
             }
         }
         return $this;

@@ -78,7 +78,7 @@ function dannyscomedyclub_form_system_site_information_settings_alter(&$form, &$
 function dannyscomedyclub_uri($node) {
     $node_uri = node_uri($node);
     $alias = drupal_lookup_path('alias', $node_uri['path']);
-    if($alias) {
+    if($alias && !$node->sticky) {
         return array(
             'path' => $node->type . '/' . $alias
         );

@@ -91,4 +91,10 @@ function performer_permission() {
     );
 }
 
+function performer_node_access($node, $op, $account) {
+    if($op == 'view' && $node->type == 'artistes' && $node->status == 0) {
+        return array(NODE_ACCESS_DENY);
+    }
+}
+
 ?>
