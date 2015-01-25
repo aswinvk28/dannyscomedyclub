@@ -64,7 +64,8 @@ class NodeDocumentReferenceCRUD {
             '#options' => array(
                 'shows' => t('Shows'),
                 'performances' => t('Performances'),
-                'artistes' => t('Artistes')
+                'artistes' => t('Artistes'),
+                'organisation' => t('Organisation')
             ),
             '#ajax' => array(
                 'callback' => 'ndreference_add_reference_nodes_wrapper',
